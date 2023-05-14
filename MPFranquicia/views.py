@@ -21,5 +21,5 @@ def musicProHome(request):#pasamos un objeto de tipo request como primer paráme
     # documento = template.render(contexto)
     # return HttpResponse(documento)
 
-def musicProMenu(request):
-    return render(request, "menu.html")
+def carrito(request):
+    return render(request, "carrito.html")

@@ -17,10 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from MPFranquicia.views import musicProHome
-from MPFranquicia.views import musicProMenu
+from MPFranquicia.views import carrito
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("home/", musicProHome),
-    path("menu/", musicProMenu),
+    path("carrito/", carrito),
 ]
