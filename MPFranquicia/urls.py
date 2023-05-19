@@ -16,10 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from MPFranquicia.views import musicProHome
-from MPFranquicia.views import carrito
+from MPFranquicia.views import musicProHome, carrito, homePage
 
 urlpatterns = [
+    path("", homePage),
     path("admin/", admin.site.urls),
     path("home/", musicProHome),
     path("carrito/", carrito),

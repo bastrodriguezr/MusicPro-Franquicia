@@ -11,6 +11,9 @@ from django.template.loader import get_template
 # get_object_or_404: para obtener un objeto de una clase o devolver un 404.
 
 # esto es una vista
+def homePage(request):
+    return musicProHome(request)
+
 def musicProHome(request):#pasamos un objeto de tipo request como primer parámetro
     #return HttpResponse("Hola mundo")#devolvemos un objeto de tipo HttpResponse
     return render(request, "home.html")#renderizamos la plantilla home.html
