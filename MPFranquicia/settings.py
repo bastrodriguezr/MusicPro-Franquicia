@@ -55,7 +55,7 @@ ROOT_URLCONF = "MPFranquicia.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": ['MPFranquicia\plantillas'],
+        "DIRS": ['MPFranquicia/plantillas'],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
