@@ -1,0 +1,91 @@
+{% extends "baseHome.html" %}
+
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+{% load humanize %}
+
+<h1>Estamos en home</h1>
+
+<!-- <div class="d-flex flex-column flex-md-row p-3 gap-3 py-md-4 align-items-center justify-content-center"> -->
+    <div class="container py-4">
+        <div class="d-flex row row-cols-12 row-cols-sm-12 row-cols-md-3 g-3 py-md-4 justify-content-center">
+
+            {% for p in productos %}
+
+            <div class="card" style="width: 15rem; margin: 20px;">
+                {% if p.imagen %}
+                <img src="{{p.imagen.url}}" class="card-img-top" alt="...">
+                {% endif %}
+                <!-- <img src="https://t2.ea.ltmcdn.com/es/posts/7/4/3/como_ayudar_a_un_gatito_a_defecar_20347_orig.jpg"
+                    class="card-img-top" alt="..."> -->
+                <div class="card-body">
+                    <h5 class="card-title">{{p.nombre}} ({{p.cantidad}})</h5>
+                    <p class="card-text">{{p.descripcion}}</p>
+                    <p class="price">${{ p.precio | intcomma }}</p>
+                    <button type="button" class="btn btn-outline-success" aria-label="Close">Carrito<i
+                            class="bi bi-person-circle"></i></button>
+                </div>
+            </div>
+
+            {% endfor %}
+            
+
+            <div class="card-responsive" style="width: 15rem; margin: 20px; forced-color-adjust: rgb(27, 22, 19); color-interpolation-filters: rgb(27, 22, 19);">
+                <img src="https://t2.ea.ltmcdn.com/es/posts/7/4/3/como_ayudar_a_un_gatito_a_defecar_20347_orig.jpg"
+                    class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Nombre Producto</h5>
+                    <p class="card-text">aqui va la descripcion. a aaaaaa aaaaaaaa aaaaa aaa a aaaaa aaaaaaaaaa aaaa</p>
+                    <button type="button" class="btn btn-outline-success" aria-label="Close">Carrito<i
+                            class="bi bi-person-circle"></i></button>
+                </div>
+            </div>
+
+            <div class="card-responsive" style="width: 15rem; margin: 20px;">
+                <img src="static 'MusicPro\static\img\guitarra.jpg'"
+                    class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Nombre Producto</h5>
+                    <p class="card-text">aqui va la descripcion. a aaaaaa aaaaaaaa aaaaa aaa a aaaaa aaaaaaaaaa aaaa</p>
+                    <button type="button" class="btn btn-outline-success" aria-label="Close">Carrito<i
+                            class="bi bi-person-circle"></i></button>
+                </div>
+            </div>
+
+            <div class="card-responsive" style="width: 15rem; margin: 20px;">
+                <img src="https://t2.ea.ltmcdn.com/es/posts/7/4/3/como_ayudar_a_un_gatito_a_defecar_20347_orig.jpg"
+                    class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Nombre Producto</h5>
+                    <p class="card-text">aqui va la descripcion. a aaaaaa aaaaaaaa aaaaa aaa a aaaaa aaaaaaaaaa aaaa</p>
+                    <button type="button" class="btn btn-outline-success" aria-label="Close">Carrito<i
+                            class="bi bi-person-circle"></i></button>
+                </div>
+            </div>
+
+            <div class="card" style="width: 15rem; margin: 10px;">
+                <img src="https://t2.ea.ltmcdn.com/es/posts/7/4/3/como_ayudar_a_un_gatito_a_defecar_20347_orig.jpg"
+                    class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Nombre Producto</h5>
+                    <p class="card-text">aqui va la descripcion. a aaaaaa aaaaaaaa aaaaa aaa a aaaaa aaaaaaaaaa aaaa</p>
+                    <button type="button" class="btn btn-outline-success" aria-label="Close">Carrito<i
+                            class="bi bi-person-circle"></i></button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+<!-- <div class="container">
+    <div class="row flex-column">
+        <div class="col"> -->
+            
+        <!-- </div>
+    </div> -->
+<!-- </div> -->
+
+
+{% endblock %}

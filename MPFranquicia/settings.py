@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "MusicPro",
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [
@@ -55,7 +57,7 @@ ROOT_URLCONF = "MPFranquicia.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": ['MPFranquicia/plantillas'],
+        "DIRS": ['MusicPro/templates'],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
