@@ -1,0 +1,70 @@
+footer{
+    background-color: #ffede7;
+}
+
+h5 {
+    letter-spacing: 2px;
+    color: #7f4722;
+}
+
+a {
+    color: #4f4f4f;
+}
+
+#productostext {
+  text-align: center;
+}
+
+#copyright {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Color of the links BEFORE scroll */
+.navbar-scroll .nav-link,
+.navbar-scroll .fa-bars,
+.navbar-scroll .navar-brand {
+  color: #4f4f4f;
+}
+
+.navbar-scroll .nav-link:hover {
+  color: #f1d012;
+}
+
+/* Color of the links AFTER scroll */
+.navbar-scrolled .nav-link,
+.navbar-scrolled .fa-bars,
+.navbar-scrolled .navar-brand {
+  color: #4f4f4f;
+}
+
+/* Color of the navbar AFTER scroll */
+.navbar-scroll,
+.navbar-scrolled {
+  background-color: #fff;
+}
+
+body {
+  background-color: #eee;
+}
+
+.dropdown-menu {
+    width: 300px !important;
+}
+
+#containerNav {
+  margin-right: 7rem;
+}
+
+#titulo {
+  text-align: center;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  color: #7f4722;
+  padding-top: 2rem;
+}
+
+#tituloProductos {
+  text-align: center;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  color: #977c7c;
+  padding-top: 1rem;
+}

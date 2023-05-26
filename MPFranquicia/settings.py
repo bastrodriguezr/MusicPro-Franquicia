@@ -38,8 +38,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "MusicPro",
+    'MusicPro',
     'django.contrib.humanize',
+    'loginApp'
 ]
 
 MIDDLEWARE = [
@@ -123,3 +124,6 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, "MPFranquicia\static"),)
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# django_project/settings.py
+LOGIN_REDIRECT_URL = "/"

@@ -1,42 +1,69 @@
 {% load static %}
 <!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary" id="navbar">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="../">Music PRO</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary" id="navbar">
+    <div class="container-fluid d-flex justify-content-center" id="containerNav">
+      <div class="row">
+        <div class="col-md-4">
+          <a href="../">
+            <button class="btn btn">
+              <img src="{% static 'img/bitmap.png' %}" height="70" alt="logoMusic" loading="lazy" />
+            </button>
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
+        </div>
+        <div class="col-md-8 mt-3">
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="../">Home</a>
+                <a class="nav-link active" aria-current="page" href="../" id="navbartext">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="../carrito/">Carrito</a>
+                <a class="nav-link active" aria-current="page" href="../carrito/" id="navbartext">Carrito</a>
               </li>
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Administracion</a>
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                  aria-expanded="false" id="navbartext">Administración</a>
                 <ul class="dropdown-menu">
                   <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="../gestionProductos/">Productos</a>
+                    <a class="nav-link active" aria-current="page" href="../gestionProductos/"
+                      id="productostext">Productos</a>
                   </li>
                 </ul>
               </li>
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  <img src="{% static 'img/Icon/user.svg' %}" alt="">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  <img src="{% static 'img/Icon/user.svg' %}" alt="userIcon">
                 </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Iniciar Sesion</a></li>
+                <ul class="dropdown-menu text-center">
+                  {% if user.is_authenticated %}
+                  <li><a class="dropdown-item" href="../../cuentas/logout_user">Cerrar Sesión</a></li>
+                  {% else %}
+                  <li><a class="dropdown-item" href="../../cuentas/login_user">Iniciar Sesión</a></li>
                   <li><a class="dropdown-item" href="#">Registrarse</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">otra cosa aqui :v</a></li>
+                  {% endif %}
                 </ul>
               </li>
             </ul>
           </div>
         </div>
-      </nav>
+      </div>
+    </div>
+  </nav>
 </body>
+
 </html>
