@@ -1,0 +1,86 @@
+{% extends "baseHome.html" %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+{% load humanize %}
+
+<h1>Gestion de Productos</h1>
+
+<div class="row">
+
+    <!-- <div class="col-6"> -->
+    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+
+        <div class="container py-2" >
+    
+            <div class="card" style="width: 15rem; margin: 20px;">
+
+                <img src="" class="card-img-top" alt="...">
+                <form action="/registrarProducto/" method="POST">
+                    {% csrf_token %}
+                    <!-- <div class="input-group mb-3"> -->
+                    <div class="form-group">
+                        <input type="file" class="form-control" id="txtImagen">
+                        <label class="input-group-text" for="inputGroupFile02">Imagen</label>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <div class="form-group">
+                                <input type="text" id="txtNombre" name="txtNombre" class="form-control" placeholder="Nombre" minlength="1" maxlength="50" required>
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <input type="textarea" id="txtDescripcion" name="txtDescripcion" class="form-control" placeholder="Descripcion" minlength="1" maxlength="80" required>
+                            </div>
+                            <!-- <div><input type="textarea" class="form-control" placeholder="Descripcion" aria-label="Descripcion" aria-describedby="addon-wrapping"></div> -->
+                            <br>
+                            <div class="form-group">
+                                <input type="number" id="txtPrecio" name="txtPrecio" class="form-control" placeholder="Precio" minlength="1" maxlength="7" required>
+                            </div>
+                            <!-- <div><input type="number" class="form-control" placeholder="Precio" aria-label="Precio" aria-describedby="addon-wrapping"></div> -->
+                            <br>
+                            <div class="form-group">
+                                <input type="number" id="txtCantidad" name="txtCantidad" class="form-control" placeholder="Cantidad" required>
+                            </div>
+                            <!-- <div><input type="number" class="form-control" placeholder="Cantidad" aria-label="Cantidad" aria-describedby="addon-wrapping"></div> -->
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-success btn-block" >Agregar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="d-flex col-sm-12 col-md-6 col-lg-8 col-xl-8">
+        
+        <div class="row-2">
+            {% for p in productos %}
+    
+            <div class="card-responsive" style="width: 15rem; margin: 20px;">
+                {% if p.imagen %}
+                <img src="{{p.imagen.url}}" class="card-img-top" alt="...">
+                {% endif %}
+                <!-- <img src="https://t2.ea.ltmcdn.com/es/posts/7/4/3/como_ayudar_a_un_gatito_a_defecar_20347_orig.jpg"
+                    class="card-img-top" alt="..."> -->
+                <div class="card-body">
+                    <h5 class="card-title">{{p.nombre}} ({{p.cantidad}})</h5>
+                    <p class="card-text">{{p.descripcion}}</p>
+                    <p class="price">${{ p.precio | intcomma }}</p>
+                    <button type="button" class="btn btn-warning" aria-label="Editar">Editar</button>
+                    <button type="submit" class="btn btn-danger btnEliminacion" aria-label="Eliminar">Eliminar</button>
+                    <!-- <td><a href="eliminarProducto/{{p.id}}" class="btn btn-danger">Eliminacion</a></td> -->
+                </div>
+            </div>
+        </div>
+            {% endfor %}
+    
+        
+    </div>
+
+</div>
+
+{% endblock %}
