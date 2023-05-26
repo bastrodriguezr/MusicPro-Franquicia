@@ -10,11 +10,22 @@
     <link rel="stylesheet" href="{% static 'css\baseBarraNavegacion.css' %}">
     <link rel="stylesheet" href="{% static 'css\navbar.css' %}">
     <link rel="stylesheet" href="{% static 'css\styles.css' %}">
+    <link rel="icon" href="{% static 'img/bitmap.png' %}" type="image/x-icon" id="iconPage">
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"> -->
 </head>
 
 <body>
     {% include "baseBarraNavegacion.html" %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+        <strong>{{ message }}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+
     <h1 id="titulo">Music Pro</h1>
     {% block content %}
 

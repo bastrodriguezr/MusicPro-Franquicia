@@ -11,9 +11,12 @@ def login_user(request):
             login(request, user)
             return redirect('/')
         else:
-            messages.warning(request, ("Error al iniciar sesión"))
+            messages.warning(request, ("Error al iniciar sesión, intente nuevamente..."))
             return redirect('login')
     else:
         return render(request,'loginApp/login.html')
 
-
+def logout_user(request):
+    logout(request)
+    messages.warning(request, ("Sesión cerrada correctamente"))
+    return redirect('/')
