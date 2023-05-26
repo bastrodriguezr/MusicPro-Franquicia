@@ -6,4 +6,6 @@ urlpatterns = [
     path('carrito/', views.carrito),
     path('saludo/', views.saludo),
     path('gestionProductos/', views.gestionProductos),
+    path('registrarProducto/' , views.registrarProducto),
+    path('eliminarProducto/<int:id_producto>/', views.eliminarProducto, name='eliminarProducto'),
 ]
