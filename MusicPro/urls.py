@@ -5,7 +5,8 @@ urlpatterns = [
     path('', views.home),
     path('carrito/', views.carrito),
     path('saludo/', views.saludo),
-    path('gestionProductos/', views.gestionProductos),
-    path('registrarProducto/' , views.registrarProducto),
-    path('eliminarProducto/<int:id_producto>/', views.eliminarProducto, name='eliminarProducto'),
+    path('gestionProductos/', views.gestionProductos, name='gestionProductos'),
+    path('registrarProducto/' , views.registrarProducto, name='registrarProducto'),
+    path('eliminarProducto/<int:id>/', views.eliminarProducto, name='eliminarProducto'),
+    path('enviarCorreo/', views.enviarCorreo, name='enviarCorreo'),
 ]

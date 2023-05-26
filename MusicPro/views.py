@@ -15,9 +15,21 @@ def carrito(request):
 
 
 def saludo(request):
-    url = 'http://musicpro.bemtorres.win/api/v1/test/saldo'
+    url = 'http://musicpro.bemtorres.win/api/v1/test/saludo'
     try:
         response = requests.get(url)
+        data = response.json()
+        print(data)
+        
+    except request.exceptions.RequestException as e:
+        print(f'Error: {e}')
+
+    return HttpResponse(data['message'])
+
+def enviarCorreo(request):
+    url = 'http://musicpro.bemtorres.win/api/v1/musicpro/send_email'
+    try:
+        response = requests.post(url, data={'asunto': 'hola', 'correo': 'ali.munoz@duocuc.cl', 'contenido': ' esto es una prueba de mensaje'})
         data = response.json()
         print(data)
         
@@ -41,24 +53,27 @@ def gestionProductos(request):
 #     return redirect('gestionProductos/')
 
 def registrarProducto(request):
+    print(request)
     data = {
-        'nombre': request.POST['txtNombre'],
-        'precio': request.POST['txtPrecio'],
-        'descripcion': request.POST['txtDescripcion'],
-        'imagen': request.FILES['txtImagen'],
-        'cantidad': request.POST['txtCantidad']
+        # 'nombre': request.POST['txtNombre'],
+        # 'precio': request.POST['txtPrecio'],
+        # 'descripcion': request.POST['txtDescripcion'],
+        # 'imagen': request.FILES['txtImagen'],
+        # 'cantidad': request.POST['txtCantidad']
+        'form': ProductoForm()
     }
     if request.method == 'POST':
         formulario = ProductoForm(data=request.POST, files=request.FILES)
         if formulario.is_valid():
             formulario.save()
             messages.success(request, 'Producto agregado correctamente')
+            return redirect('gestionProductos')
         else:
             messages.error(request, 'Error al agregar el producto')
             data['form'] = formulario
-        return render(request, 'gestionProductos.html', data)
+            return render(request, 'gestionProductos.html', data)
     
-def eliminarProducto(request, id_producto):
-    producto = Producto.objects.get(pk=id_producto)
+def eliminarProducto(request, id):
+    producto = Producto.objects.get(pk=id)
     producto.delete()
-    return redirect('gestionProductos/')
+    return redirect('gestionProductos')
