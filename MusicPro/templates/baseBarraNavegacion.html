@@ -14,7 +14,11 @@
     <div class="container-fluid d-flex justify-content-center" id="containerNav">
       <div class="row">
         <div class="col-md-4">
-          <img src="{% static 'img/bitmap.png' %}" height="70" alt="logoMusic" loading="lazy"/>
+          <a href="../">
+            <button class="btn btn">
+              <img src="{% static 'img/bitmap.png' %}" height="70" alt="logoMusic" loading="lazy" />
+            </button>
+          </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
             aria-label="Toggle navigation">
@@ -46,12 +50,12 @@
                   <img src="{% static 'img/Icon/user.svg' %}" alt="userIcon">
                 </a>
                 <ul class="dropdown-menu text-center">
+                  {% if user.is_authenticated %}
+                  <li><a class="dropdown-item" href="../../cuentas/logout_user">Cerrar Sesión</a></li>
+                  {% else %}
                   <li><a class="dropdown-item" href="../../cuentas/login_user">Iniciar Sesión</a></li>
                   <li><a class="dropdown-item" href="#">Registrarse</a></li>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li><a class="dropdown-item" href="#">otra cosa aqui :v</a></li>
+                  {% endif %}
                 </ul>
               </li>
             </ul>
