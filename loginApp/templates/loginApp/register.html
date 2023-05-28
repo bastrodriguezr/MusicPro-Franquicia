@@ -1,0 +1,33 @@
+{% extends 'baseHome.html' %}
+{% block title %}Login{% endblock %}
+{% block content %}
+{% load crispy_forms_tags %} 
+
+{% if form.errors %}
+<div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+    <strong>Error al registrar usuario...</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+{% endif %}
+<div class="container d-flex justify-content-center">
+    <div class="row">
+        <div class="col-12 mb-5">
+            <div class="card">
+                <div class="card-header text-center">
+                    Registrar usuario
+                </div>
+                <div class="card-body">
+                    <form action="{% url 'register' %}" method="post">
+                        {% csrf_token %}
+                        {{ form | crispy }}
+
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary">Aceptar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
