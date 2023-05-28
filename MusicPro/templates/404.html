@@ -1,0 +1,25 @@
+{% extends "baseHome.html" %}
+{% load static %}
+
+{% block title %}Page 404{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h2>404 not found</h2>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <img src="{% static 'img/bitmap.png' %}" alt="">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h3>Página no encontrada vuelva al Home...</h3>
+        </div>
+    </div>
+</div>
+{% endblock %}

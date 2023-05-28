@@ -39,8 +39,12 @@ def enviarCorreo(request):
     return HttpResponse(data['message'])
 
 def gestionProductos(request):
-    productos = Producto.objects.all()
-    return render(request, 'gestionProductos.html', {'productos': productos})
+    if request.user.is_superuser:
+        productos = Producto.objects.all()
+        return render(request, 'gestionProductos.html', {'productos': productos})
+    else:
+        return render(request, '404.html')
+    
 
 # def registrarProducto(request):
 #     nombre = request.POST['txtNombre']
@@ -77,3 +81,6 @@ def eliminarProducto(request, id):
     producto = Producto.objects.get(pk=id)
     producto.delete()
     return redirect('gestionProductos')
+
+def error_404(request, exception):
+    return render(request, '404.html')
