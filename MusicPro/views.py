@@ -14,17 +14,31 @@ def carrito(request):
     return render(request, 'carrito.html')
 
 
-def saludo(request):
+'''def saludo(request):
     url = 'http://musicpro.bemtorres.win/api/v1/test/saludo'
     try:
         response = requests.get(url)
         data = response.json()
-        print(data)
+        print(data['message'])
         
     except request.exceptions.RequestException as e:
         print(f'Error: {e}')
 
     return HttpResponse(data['message'])
+'''
+def saludo(request):
+    response = requests.get('https://musicpro.bemtorres.win/api/v1/test/saludo')
+    data = response.json()
+    return render(request, 'apiSaludo.html', {"message": data['message']})
+
+def saldo(request):
+    response = requests.get('https://musicpro.bemtorres.win/api/v1/test/saldo')
+    data = response.json()
+    return render(request, 'apiSaldo.html', {
+        "message": data['message'],
+        "saldo": data['saldo'],
+        "saldo_raw": data['saldo_raw']
+        })
 
 def enviarCorreo(request):
     url = 'http://musicpro.bemtorres.win/api/v1/musicpro/send_email'
@@ -39,8 +53,12 @@ def enviarCorreo(request):
     return HttpResponse(data['message'])
 
 def gestionProductos(request):
-    productos = Producto.objects.all()
-    return render(request, 'gestionProductos.html', {'productos': productos})
+    if request.user.is_superuser:
+        productos = Producto.objects.all()
+        return render(request, 'gestionProductos.html', {'productos': productos})
+    else:
+        return render(request, '404.html')
+    
 
 # def registrarProducto(request):
 #     nombre = request.POST['txtNombre']
@@ -77,3 +95,6 @@ def eliminarProducto(request, id):
     producto = Producto.objects.get(pk=id)
     producto.delete()
     return redirect('gestionProductos')
+
+def error_404(request, exception):
+    return render(request, '404.html')

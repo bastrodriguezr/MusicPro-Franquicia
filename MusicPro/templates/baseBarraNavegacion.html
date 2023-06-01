@@ -34,6 +34,7 @@
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="../carrito/" id="navbartext">Carrito</a>
               </li>
+              {% if user.is_superuser %}
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                   aria-expanded="false" id="navbartext">Administración</a>
@@ -44,6 +45,7 @@
                   </li>
                 </ul>
               </li>
+              {% endif %}
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                   aria-expanded="false">
@@ -54,7 +56,7 @@
                   <li><a class="dropdown-item" href="../../cuentas/logout_user">Cerrar Sesión</a></li>
                   {% else %}
                   <li><a class="dropdown-item" href="../../cuentas/login_user">Iniciar Sesión</a></li>
-                  <li><a class="dropdown-item" href="#">Registrarse</a></li>
+                  <li><a class="dropdown-item" href="../../cuentas/register_user">Registrarse</a></li>
                   {% endif %}
                 </ul>
               </li>
