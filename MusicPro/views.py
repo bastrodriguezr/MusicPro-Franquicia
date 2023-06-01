@@ -52,6 +52,13 @@ def enviarCorreo(request):
 
     return HttpResponse(data['message'])
 
+def bodega(request):
+    response = requests.get('https://musicpro.bemtorres.win/api/v1/bodega/producto')
+    data = response.json()
+    return render(request, 'apiBodega.html', {
+        "productos": data['productos'],
+        })
+
 def gestionProductos(request):
     if request.user.is_superuser:
         productos = Producto.objects.all()
