@@ -8,6 +8,68 @@
 {% load humanize %}
 <div class="container">
     <h1>Gestion de Productos</h1>
+
+    <!-- Ventana Modal -->
+    <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <!-- <h1>hola este es el modal 2.0</h1> -->
+            <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Datos Producto</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <!-- {% for p in productos %}
+                {% if p.id == id_producto %} -->
+                    <form action="/modificarProducto/" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <!-- <div class="input-group mb-3"> -->
+    
+                        <div class="card-body">
+                            <div class="form-group">
+                                <input type="file" class="form-control" id="fileImagen" name="imagen">
+                            </div>
+                            <div>
+                                <div class="form-group">
+                                    <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre"
+                                        minlength="1" maxlength="50" value="{{p.nombre}}" required>
+                                </div>
+                                <br>
+                                <div class="form-group">
+                                    <input type="textarea" id="descripcion" name="descripcion" class="form-control"
+                                        placeholder="Descripcion" minlength="1" maxlength="80" required>
+                                </div>
+                                <!-- <div><input type="textarea" class="form-control" placeholder="Descripcion" aria-label="Descripcion" aria-describedby="addon-wrapping"></div> -->
+                                <br>
+                                <div class="form-group">
+                                    <input type="number" id="precio" name="precio" class="form-control" placeholder="Precio"
+                                        minlength="1" maxlength="7" required>
+                                </div>
+                                <!-- <div><input type="number" class="form-control" placeholder="Precio" aria-label="Precio" aria-describedby="addon-wrapping"></div> -->
+                                <br>
+                                <div class="form-group">
+                                    <input type="number" id="cantidad" name="cantidad" class="form-control"
+                                        placeholder="Cantidad" required>
+                                </div>
+                                <!-- <div><input type="number" class="form-control" placeholder="Cantidad" aria-label="Cantidad" aria-describedby="addon-wrapping"></div> -->
+                            </div>
+                            <br>
+                            <form action="/modificarProducto/{{p.id}}" method="get">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-warning"
+                                aria-label="Modificar">Modificar</button>
+                            </form>
+                            <!-- boton cancelar -->
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                        </div>
+                    </form>
+                <!-- {% endif %}
+                {% endfor %} -->
+                
+            </div>
+
+        </div>
+    </div>
     
     <div class="row">
         <!-- <div class="col-6"> -->
@@ -49,17 +111,18 @@
                         </div>
                         <br>
                         <button type="submit" class="btn btn-success btn-block">Agregar</button>
+                        
                     </div>
                 </form>
             </div>
         </div>
     
-        <div class="col-sm-6 col-md-6 col-lg-8 col-xl-8">
+        <div class="col-sm-6 col-md-12 col-lg-8 col-xl-8">
             <div class="row">
                 {% for p in productos %}
                 <div class="col-md-4">
     
-                    <div class="card card-responsive mb-3">
+                    <div class="card card-responsive mb-3" id="tarjeta">
                         {% if p.imagen %}
                         <img src="{{p.imagen.url}}" class="card-img-top" alt="...">
                         {% endif %}
@@ -69,8 +132,13 @@
                             <h5 class="card-title">{{p.nombre}} ({{p.cantidad}})</h5>
                             <p class="card-text">{{p.descripcion}}</p>
                             <p class="price">${{ p.precio | intcomma }}</p>
-                            <button type="button" class="btn btn-warning" aria-label="Editar">Editar</button>
-                            
+
+                            <!-- <button type="button" class="btn btn-warning" id="ver" data-bs-toggle="modal" data-bs-target="#exampleModal">Modificar</button> -->
+                            <!-- se agregará data-product_id en el boton de editar -->
+                            <!-- <button type="button" class="btn btn-warning active product_del" id="ver" data-bs-toggle="modal" data-bs-target="#exampleModal" data-product_id="">Modificar</button> -->
+
+
+                            <!-- <button type="button" class="btn btn-warning active" id="ver" data-bs-toggle="modal" data-bs-target="#Modal" onclick="get_id('{{p.id}}')">Modificar</button> -->
                             <form action="/eliminarProducto/{{p.id}}" method="get">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-danger"

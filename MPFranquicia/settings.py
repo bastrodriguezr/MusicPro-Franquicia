@@ -42,8 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'loginApp',
     'crispy_forms',
-    'crispy_bootstrap5',
     'carritoApp',
+    # 'crispy_bootstrap5',  ---> No se si es necesario, me esta dando problemas
 ]
 
 MIDDLEWARE = [
