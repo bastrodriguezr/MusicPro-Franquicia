@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 import requests
 from .models import Producto
@@ -59,6 +59,13 @@ def gestionProductos(request):
     else:
         return render(request, '404.html')
     
+def modificarProductos(request):
+    if request.user.is_superuser:
+        productos = Producto.objects.all()
+        return render(request, 'modificarProductos.html', {'productos': productos})
+    else:
+        return render(request, '404.html')
+    
 
 # def registrarProducto(request):
 #     nombre = request.POST['txtNombre']
@@ -98,3 +105,42 @@ def eliminarProducto(request, id):
 
 def error_404(request, exception):
     return render(request, '404.html')
+
+# def editarProducto(request, id):
+#     producto = Producto.objects.get(pk=id)
+#     if request.method == 'GET':
+#         form = ProductoForm(instance=producto)
+#         contexto = {
+#             'form': form
+#         }
+#     else:
+#         form = ProductoForm(request.POST, instance=producto)
+#         contexto = {
+#             'form': form
+#         }
+#         if form.is_valid():
+#             form.save()
+#             return redirect('modificarProductos')
+#     return render(request, 'modificarProductos.html', contexto)
+
+def editarProducto(request, id):
+    producto = get_object_or_404(Producto, id=id)
+    data = {
+        'form': ProductoForm(instance=producto)
+    }
+    if request.method == 'POST':
+        formulario = ProductoForm(data=request.POST, instance=producto, files=request.FILES)
+        if formulario.is_valid():
+            formulario.save()
+            messages.success(request, 'Producto modificado correctamente')
+            return redirect('modificarProductos')
+        else:
+            messages.error(request, 'Error al modificar el producto')
+            data['form'] = formulario
+            return render(request, 'modificarProductos.html', data)
+    return render(request, 'modificarProductos.html', data)
+
+# def getProducto(request, id):
+#     producto = Producto.objects.get(pk=id)
+#     return render(request, 'producto.html', {'producto': producto})
+
