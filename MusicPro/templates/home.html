@@ -25,8 +25,11 @@
                 <h5 class="card-title">{{p.nombre}} ({{p.cantidad}})</h5>
                 <p class="card-text">{{p.descripcion}}</p>
                 <p class="price">${{ p.precio | intcomma }}</p>
-                <button type="button" class="btn btn-outline-success" aria-label="Close">Carrito<i
-                        class="bi bi-person-circle"></i></button>
+                <form action="/agregar_carrito/{{p.id}}" method="get">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-success"
+                    aria-label="Agreagr Carrito">Carrito</button>
+                </form>
             </div>
         </div>
 
