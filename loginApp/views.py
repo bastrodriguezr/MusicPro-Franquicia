@@ -11,6 +11,7 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            messages.success(request, ("Sesión iniciada correctamente!"))
             return redirect('/')
         else:
             messages.warning(request, ("Error al iniciar sesión, intente nuevamente..."))

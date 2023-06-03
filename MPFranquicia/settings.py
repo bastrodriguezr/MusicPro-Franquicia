@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'loginApp',
     'crispy_forms',
     'carritoApp',
-    # 'crispy_bootstrap5',  ---> No se si es necesario, me esta dando problemas
+    'crispy_bootstrap5',  
 ]
 
 MIDDLEWARE = [
