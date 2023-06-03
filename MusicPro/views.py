@@ -14,19 +14,6 @@ def home(request):
 def carrito(request):
     return render(request, 'carrito.html')
 
-
-'''def saludo(request):
-    url = 'http://musicpro.bemtorres.win/api/v1/test/saludo'
-    try:
-        response = requests.get(url)
-        data = response.json()
-        print(data['message'])
-        
-    except request.exceptions.RequestException as e:
-        print(f'Error: {e}')
-
-    return HttpResponse(data['message'])
-'''
 def saludo(request):
     response = requests.get('https://musicpro.bemtorres.win/api/v1/test/saludo')
     data = response.json()
@@ -73,26 +60,10 @@ def modificarProductos(request):
         return render(request, 'modificarProductos.html', {'productos': productos})
     else:
         return render(request, '404.html')
-    
-
-# def registrarProducto(request):
-#     nombre = request.POST['txtNombre']
-#     precio = request.POST['txtPrecio']
-#     descripcion = request.POST['txtDescripcion']
-#     imagen = request.FILES['txtImagen']
-#     cantidad = request.POST['txtCantidad']
-
-#     producto = Producto.objects.create(nombre=nombre, precio=precio, descripcion=descripcion, imagen=imagen, cantidad=cantidad)
-#     return redirect('gestionProductos/')
 
 def registrarProducto(request):
     print(request)
     data = {
-        # 'nombre': request.POST['txtNombre'],
-        # 'precio': request.POST['txtPrecio'],
-        # 'descripcion': request.POST['txtDescripcion'],
-        # 'imagen': request.FILES['txtImagen'],
-        # 'cantidad': request.POST['txtCantidad']
         'form': ProductoForm()
     }
     if request.method == 'POST':
@@ -114,23 +85,6 @@ def eliminarProducto(request, id):
 def error_404(request, exception):
     return render(request, '404.html')
 
-# def editarProducto(request, id):
-#     producto = Producto.objects.get(pk=id)
-#     if request.method == 'GET':
-#         form = ProductoForm(instance=producto)
-#         contexto = {
-#             'form': form
-#         }
-#     else:
-#         form = ProductoForm(request.POST, instance=producto)
-#         contexto = {
-#             'form': form
-#         }
-#         if form.is_valid():
-#             form.save()
-#             return redirect('modificarProductos')
-#     return render(request, 'modificarProductos.html', contexto)
-
 def editarProducto(request, id):
     producto = get_object_or_404(Producto, id=id)
     data = {
@@ -148,7 +102,4 @@ def editarProducto(request, id):
             return render(request, 'modificarProductos.html', data)
     return render(request, 'modificarProductos.html', data)
 
-# def getProducto(request, id):
-#     producto = Producto.objects.get(pk=id)
-#     return render(request, 'producto.html', {'producto': producto})
 
