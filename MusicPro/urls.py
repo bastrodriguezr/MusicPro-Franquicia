@@ -21,7 +21,6 @@ urlpatterns = [
 
     # CRUD
     path('gestionProductos/', views.gestionProductos, name='gestionProductos'),
-    path('modificarProductos/', views.modificarProductos, name='modificarProductos'),
     path('registrarProducto/' , views.registrarProducto, name='registrarProducto'),
     path('eliminarProducto/<int:id>/', views.eliminarProducto, name='eliminarProducto'),
     path('editarProducto/<int:id>/', views.editarProducto, name='editarProducto'),

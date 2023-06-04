@@ -93,3 +93,9 @@ body {
   width: 45px;
   height: 45px;
 }
+
+#btnModalEdit {
+  width: 5.2rem;
+  height: auto;
+  margin-top: 1rem;
+}
