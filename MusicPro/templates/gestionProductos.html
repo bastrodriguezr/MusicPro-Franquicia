@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col-sm-4">
 
-            <!-- Botón abrir modal -->
+            <!-- Botón abrir modal agregar producto-->
             <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#productoModal"
                 id="btnModal">
                 Agregar producto
@@ -33,7 +33,7 @@
                                 <div class="modal-body">
                                     <div class="card-body">
                                         <div class="form-group">
-                                            <input type="file" class="form-control" id="fileImagen" name="imagen">
+                                            <input type="file" class="form-control" id="fileImagen" name="imagen" required>
                                         </div>
                                         <div>
                                             <div class="form-group">
@@ -67,9 +67,65 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
+    <!-- Fin modal agregar producto-->
+
+    <!-- Modal edit producto -->
+    {% for producto in productos %}
+    <div class="modal fade" id="editProductoModal-{{forloop.counter}}" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalLabel">Editar producto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="card">
+                    <form action="/editarProducto/{{producto.id}}/" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <input type="file" class="form-control" id="fileImagen" name="imagen" required>
+                                </div>
+                                <br>
+                                <div>
+                                    <div class="form-group">
+                                        <input type="text" id="nombre" name="nombre" class="form-control"
+                                            placeholder="Nombre" minlength="3" maxlength="50"
+                                            value="{{producto.nombre}}" required>
+                                    </div>
+                                    <br>
+                                    <div class="form-group">
+                                        <input type="textarea" id="descripcion" name="descripcion" class="form-control"
+                                            placeholder="Descripcion" minlength="3" maxlength="100"
+                                            value="{{producto.descripcion}}" required>
+                                    </div>
+                                    <br>
+                                    <div class="form-group">
+                                        <input type="number" id="precio" name="precio" class="form-control"
+                                            placeholder="Precio" min="1000" max="9999999" value="{{producto.precio}}"
+                                            required>
+                                    </div>
+                                    <br>
+                                    <div class="form-group">
+                                        <input type="number" id="cantidad" name="cantidad" class="form-control"
+                                            placeholder="Cantidad" min="1" max="999" value="{{producto.cantidad}}"
+                                            required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer text-center">
+                                <button type="submit" class="btn btn-success btn-block">Modificar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <!-- Fin modal edit  producto-->
 
     <div class="row">
         <div class="col-12-md">
@@ -117,6 +173,11 @@
                                         <button type="submit" class="btn btn-outline-danger"
                                             aria-label="Eliminar">Eliminar</button>
                                     </form>
+                                    <!-- Botón abrir modal edit -->
+                                    <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal"
+                                        data-bs-target="#editProductoModal-{{forloop.counter}}" id="btnModalEdit">
+                                        Editar
+                                    </button>
                                 </td>
                             </tr>
                             {% endfor %}

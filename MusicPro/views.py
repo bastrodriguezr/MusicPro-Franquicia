@@ -53,13 +53,6 @@ def gestionProductos(request):
         return render(request, 'gestionProductos.html', {'productos': productos})
     else:
         return render(request, '404.html')
-    
-def modificarProductos(request):
-    if request.user.is_superuser:
-        productos = Producto.objects.all()
-        return render(request, 'modificarProductos.html', {'productos': productos})
-    else:
-        return render(request, '404.html')
 
 def registrarProducto(request):
     print(request)
@@ -86,21 +79,22 @@ def eliminarProducto(request, id):
 def error_404(request, exception):
     return render(request, '404.html')
 
-def editarProducto(request, id):
-    producto = get_object_or_404(Producto, id=id)
-    data = {
-        'form': ProductoForm(instance=producto)
-    }
-    if request.method == 'POST':
-        formulario = ProductoForm(data=request.POST, instance=producto, files=request.FILES)
-        if formulario.is_valid():
-            formulario.save()
-            messages.success(request, 'Producto modificado correctamente')
-            return redirect('modificarProductos')
-        else:
-            messages.error(request, 'Error al modificar el producto')
-            data['form'] = formulario
-            return render(request, 'modificarProductos.html', data)
-    return render(request, 'modificarProductos.html', data)
+def editarProducto(request,id):
+    if request.method == "POST":
+        imagen = request.FILES.get('imagen')
+        nombre = request.POST.get('nombre')
+        descripcion = request.POST.get('descripcion')
+        precio = request.POST.get('precio')
+        cantidad = request.POST.get('cantidad')
 
-
+        producto = Producto(
+            id = id,
+            imagen = imagen,
+            nombre = nombre,
+            descripcion = descripcion,
+            precio = precio,
+            cantidad = cantidad,
+        )
+        producto.save()
+        return redirect('gestionProductos')
+    return redirect(request, 'home.html')
