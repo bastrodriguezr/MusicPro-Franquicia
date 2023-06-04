@@ -80,6 +80,7 @@ def registrarProducto(request):
 def eliminarProducto(request, id):
     producto = Producto.objects.get(pk=id)
     producto.delete()
+    messages.success(request, 'Producto eliminado correctamente')
     return redirect('gestionProductos')
 
 def error_404(request, exception):

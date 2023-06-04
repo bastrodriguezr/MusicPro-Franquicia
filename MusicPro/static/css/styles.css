@@ -19,7 +19,6 @@ a {
     background-color: rgba(0, 0, 0, 0.2);
 }
 
-/* Color of the links BEFORE scroll */
 .navbar-scroll .nav-link,
 .navbar-scroll .fa-bars,
 .navbar-scroll .navar-brand {
@@ -30,14 +29,12 @@ a {
   color: #f1d012;
 }
 
-/* Color of the links AFTER scroll */
 .navbar-scrolled .nav-link,
 .navbar-scrolled .fa-bars,
 .navbar-scrolled .navar-brand {
   color: #4f4f4f;
 }
 
-/* Color of the navbar AFTER scroll */
 .navbar-scroll,
 .navbar-scrolled {
   background-color: #fff;
@@ -62,9 +59,37 @@ body {
   padding-top: 2rem;
 }
 
-#tituloProductos {
+#tituloProductos, #tituloGestion {
   text-align: center;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   color: #977c7c;
   padding-top: 1rem;
+}
+
+#cardProductos {
+  width: 15rem;
+  height: 30rem;
+  margin: 20px;
+}
+
+#cardGestionProductos {
+  width: 15rem;
+  height: 30rem;
+}
+
+#imgCard {
+  height: 14em;
+}
+
+#nombre {
+  margin-top: 1.5rem;
+}
+
+#btnModal {
+  border-radius: 12px;
+}
+
+#imgCardRounded {
+  width: 45px;
+  height: 45px;
 }
