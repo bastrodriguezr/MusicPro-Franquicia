@@ -100,16 +100,18 @@
     </div>
       <!-- Bloque Sin Productos -->
       {% else %}
-      <div class="container py-4">
-        <div class="card">
-          <div class="card-header bg-danger">
-          NO HAY PRODUCTOS EN EL CARRITO
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">Vuelve a la tienda para agregar productos a tu carrito!</h5>
-            <p class="card-text">Tenemos increibles productos para ti...</p>
-            <a href="../" class="btn btn-primary">Tienda</a>
-          </div>
+
+      <div class="row">
+        <div class="col-12-md">
+            <div class="card mb-3 mt-3">
+                <div class="card-header text-center">
+                    <h3>NO HAY PRODUCTOS EN EL CARRITO!</h3>
+                </div>
+                <div class="card-body text-center">
+                  <h5 class="card-title">Tenemos increibles productos para ti...</h5>
+                  <p class="card-text">Vuelve a la tienda para agregar productos a tu carrito!</p>
+                  <a href="../" class="btn btn-primary">Tienda</a>
+            </div>
         </div>
       </div>
       {% endif %}
