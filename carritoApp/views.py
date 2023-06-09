@@ -1,6 +1,8 @@
 from django.shortcuts import render, HttpResponse, redirect
 
+
 from .carrito import Carrito
+from .context_processor import total_carrito
 from MusicPro.models import Producto
 
 
@@ -28,4 +30,9 @@ def restar_carrito(request, producto_id):
 def limpiar_carrito(request):
     carrito = Carrito(request)
     carrito.limpiar()
+    return redirect('carrito')
+
+def total_compra(request):
+    total = total_carrito(request)
+    print(total)
     return redirect('carrito')
