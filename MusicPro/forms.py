@@ -1,5 +1,5 @@
 from django import forms
-from .models import Producto
+from .models import Producto,Transporte
 from .validators import MaxSizeFileValidator
  
 
@@ -19,3 +19,9 @@ class ProductoForm(forms.ModelForm):
         #       'fecha-fabricacion': forms.SelectDateWidget()
         #   }
         #fin de la fecha
+
+class TransporteForm(forms.ModelForm):
+
+    class Meta:
+        model = Transporte
+        fields = ["direccion_envio","metodo_pago"]

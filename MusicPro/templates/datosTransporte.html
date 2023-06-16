@@ -1,0 +1,28 @@
+{% extends "baseHome.html" %}
+
+{% block title %}Datos envío{% endblock %}
+
+{% block content %}
+
+{% load crispy_forms_tags %} 
+<div class="container-fluid mt-5 mb-5" id="centrar">
+    <div class="row">
+        <div class="col-6 text-center">
+            <div class="card">
+                <div class="card-header">
+                    <h4 id="tituloCardDatos">Datos de envío</h3>
+                </div>
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="card-body">
+                        {{ form | crispy }}
+                    </div>
+                    <div class="card-footer text-center">
+                        <button type="submit" class="btn btn-outline-success btn-block">Aceptar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

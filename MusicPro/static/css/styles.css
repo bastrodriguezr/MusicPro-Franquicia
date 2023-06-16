@@ -99,3 +99,19 @@ body {
   height: auto;
   margin-top: 1rem;
 }
+
+#tituloCardDatos, #tituloDatosEnvio {
+  text-align: center;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  color: #977c7c;
+}
+
+#centrar {
+  margin-left: 20rem;
+}
+
+#labelNombre, #labelApellido, #labelCorreo, #labelDireccion {
+  margin-bottom: 1rem;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  color: #645656;
+}
