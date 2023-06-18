@@ -4,7 +4,7 @@ from carritoApp.views import *
 from . import views
 
 urlpatterns = [
-    path('', views.home),
+    path('', views.home, name="home"),
     path('carrito/', views.carrito, name="carrito"),
     
     # Carrito
