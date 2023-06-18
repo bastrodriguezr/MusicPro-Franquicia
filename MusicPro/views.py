@@ -109,7 +109,7 @@ def editarProducto(request,id):
     return redirect(request, 'home.html')
 
 #Formulario transporte
-def datosTransporte(request):
+'''def datosTransporte(request):
     data = {
         'form': TransporteForm()
     }
@@ -140,6 +140,34 @@ def datosTransporte(request):
         if formulario.is_valid():
             formulario.save()
             return render(request, 'envioDatosTransporte.html', context)
+        else:
+            data["form"] = formulario
+    return render(request, 'datosTransporte.html', data)'''
+
+def datosTransporte(request):
+    data = {
+        'form': TransporteForm()
+    }
+    if request.method == "POST":
+        formulario = TransporteForm(data=request.POST)
+        direccion_envio = request.POST.get('direccion_envio')
+        url = 'https://musicpro.bemtorres.win/api/v1/transporte/solicitud'
+        try:
+            response = requests.post(url, data={'nombre_origen': request.user.username, 
+                                                'direccion_origen': 'Av. Crimson 4245', 
+                                                'nombre_destino': 'Patrick Star',
+                                                'estado': 'En preparacion',
+                                                'direccion_destino': direccion_envio, 
+                                                'comentario': 'Primer intento', 
+                                                'info': 'Carga con instrumentos pesados'
+                                                })
+            data = response.json()
+            print(data)  
+        except request.exceptions.RequestException as e:
+            print(f'Error: {e}')
+        if formulario.is_valid():
+                formulario.save()
+                return render(request, 'envioDatosTransporte.html', {'data': data})
         else:
             data["form"] = formulario
     return render(request, 'datosTransporte.html', data)
