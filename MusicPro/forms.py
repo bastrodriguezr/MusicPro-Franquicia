@@ -24,4 +24,4 @@ class TransporteForm(forms.ModelForm):
 
     class Meta:
         model = Transporte
-        fields = ["direccion_envio","metodo_pago"]
+        fields = ["direccion_envio"]
