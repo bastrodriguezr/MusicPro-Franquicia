@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
+
+from carritoApp.carrito import Carrito
 from .models import Producto, Transporte
 from .forms import ProductoForm,TransporteForm
 from django.contrib import messages
@@ -12,7 +14,14 @@ def home(request):
 
 #Vista Carrito
 def carrito(request):
-    return render(request, 'carrito.html')
+    carrito = Carrito(request)
+    total = carrito.calcular_total()
+
+    context = {
+        'carrito': carrito,
+        'total': total,
+    }
+    return render(request, 'carrito.html', context)
 
 #Vista integración Saludo
 def saludo(request):
@@ -167,6 +176,9 @@ def datosTransporte(request):
             print(f'Error: {e}')
         if formulario.is_valid():
                 formulario.save()
+                # Vaciar el carrito después de realizar el pago
+                carrito = Carrito(request)
+                carrito.limpiar()
                 return render(request, 'envioDatosTransporte.html', {'data': data})
         else:
             data["form"] = formulario
