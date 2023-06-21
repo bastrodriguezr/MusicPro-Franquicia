@@ -1,0 +1,67 @@
+{% extends "baseHome.html" %}
+
+{% load humanize %}
+
+{% block title %}Compra realizada{% endblock %}
+
+{% block content %}
+
+<div class="container mt-3 mb-3">
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h4>Orden de Compra</h4>
+                </div>
+                <div class="text-center mt-2">
+                    <p class="fst-italic">Número de orden: {{ orden_compra.id }}</p>
+                    <p class="fst-italic">Usuario: {{ orden_compra.usuario.username }}</p>
+                    <p class="fst-italic">Fecha: {{ orden_compra.fecha }}</p>
+                </div>
+                <div class="card-body">
+                    {% for item in carrito_items %}
+                    <table class="table">
+                        <thead class="bg-light">
+                            <tr>
+                                <th scope="row">Nombre producto</th>
+                                <th scope="row">Cantidad</th>
+                                <th scope="row">Precio Unitario</th>
+                                <th scope="row">Sub Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <p class="fw-normal">{{ item.nombre }}</p>
+                                </td>
+                                <td>
+                                    <p class="fw-normal">{{ item.cantidad }}</p>
+                                </td>
+                                <td>
+                                    <p class="fw-normal">${{ item.precio | intcomma:False }}</p>
+                                </td>
+                                <td>
+                                    <p class="fw-normal">${{ item.sub_total | intcomma:False }}</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                        {% endfor %}
+                        <tfoot class="bg-light text-center">
+                            <tr>
+                                <td>
+                                    <p class="fw-normal"><strong>Total Compra:</strong> ${{ total | intcomma:False }}
+                                    </p>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="../"><button class="btn btn-success">Aceptar</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

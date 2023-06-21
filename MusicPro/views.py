@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-
+from django.db.models import Sum
 from carritoApp.carrito import Carrito
-from .models import Producto, Transporte
-from .forms import ProductoForm,TransporteForm
+from .models import Producto,ItemOrdenCompra, OrdenCompra,DireccionEnvio
+from .forms import ProductoForm,TransporteForm,DireccionEnvioForm
 from django.contrib import messages
 import requests
 
@@ -11,17 +11,6 @@ import requests
 def home(request):
     productos = Producto.objects.all()
     return render(request, 'home.html', {'productos': productos})
-
-#Vista Carrito
-def carrito(request):
-    carrito = Carrito(request)
-    total = carrito.calcular_total()
-
-    context = {
-        'carrito': carrito,
-        'total': total,
-    }
-    return render(request, 'carrito.html', context)
 
 #Vista integración Saludo
 def saludo(request):
@@ -187,5 +176,87 @@ def datosTransporte(request):
 #Vista Seguimiento
 def seguimiento(request):
     return render(request, 'envioDatosTransporte.html')
+
+#Vista Carrito
+def carrito(request):
+
+    #Generar carrito
+    carrito = Carrito(request)
+    total = carrito.calcular_total()
+    carrito_items = carrito.carrito.values()
+    context = {
+        'total': total,
+        'carrito_items': carrito_items
+    }
+    return render(request, 'carrito.html', context)
+
+#Vista Confirmar compra
+def confirmarCompra(request):
+    # Generar carrito
+    carrito = Carrito(request)
+    total = carrito.calcular_total()
+    carrito_items = carrito.carrito.values()
+    direcciones = DireccionEnvio.objects.all()
+
+    data = {
+        'form': DireccionEnvioForm(),
+        'total': total,
+        'carrito_items': carrito_items,
+        'direcciones': direcciones
+    }
+        
+    if request.method == 'POST':
+        formulario = DireccionEnvioForm(request.POST)
+        if formulario.is_valid():
+            direccion = formulario.cleaned_data['direccion']
+            DireccionEnvio.objects.create(usuario=request.user, direccion=direccion)
+    else:
+        formulario = DireccionEnvioForm()
+        data['form'] = formulario
+
+    return render(request, 'confirmarCompra.html', data)
+ 
     
+    
+#Vista Compra realizada
+def compraRealizada(request):
+
+    #Generar carrito
+    carrito = Carrito(request)
+    total = carrito.calcular_total()
+    carrito_items = carrito.carrito.values()
+
+    context = {
+        'total': total,
+        'carrito_items': carrito_items
+    }
+    
+    direccion_envio = DireccionEnvio.objects.get(usuario=request.user)
+
+    # Guardar la orden de compra
+    if request.method == 'POST':
+        usuario = request.user if request.user.is_authenticated else None
+        if usuario:
+            total_cantidad = 0
+            orden_compra = OrdenCompra.objects.create(usuario=usuario,direccion_envio=direccion_envio.direccion)
+            for item in carrito_items:
+                producto = Producto.objects.get(id=item['producto_id'])
+                ItemOrdenCompra.objects.create(
+                        producto=producto,
+                        orden_compra=orden_compra,
+                        cantidad=item['cantidad']
+                    )
+            orden_compra.save()
+            total_cantidad += item['cantidad']
+            context = {
+                'orden_compra': orden_compra,
+                'producto': producto,
+                'total_cantidad': total_cantidad,
+                'total': total,
+                'carrito_items': carrito_items
+            }
+            return render(request, 'compraRealizada.html',context)
+        else:
+            # Manejar el caso en el que el usuario no esté autenticado
+            return redirect('login')
     

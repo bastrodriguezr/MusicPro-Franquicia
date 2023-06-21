@@ -1,0 +1,82 @@
+{% extends "baseHome.html" %}
+
+{% load humanize %}
+
+{% block title %}Datos envío{% endblock %}
+
+{% block content %}
+
+{% load crispy_forms_tags %}
+<div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-6 text-center">
+            <div class="card">
+                <div class="card-header">
+                    <h4 id="tituloCardDatos">Datos de envío</h4>
+                </div>
+                <div class="card-body">
+                    <form action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form | crispy }}
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-outline-success btn-block">Confirmar Compra</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Productos</h4>
+                </div>
+                <div class="card-body">
+                    {% for item in carrito_items %}
+                    <table class="table">
+                        <thead class="bg-light">
+                            <tr>
+                                <th scope="row">Nombre producto</th>
+                                <th scope="row">Cantidad</th>
+                                <th scope="row">Precio Unitario</th>
+                                <th scope="row">Sub Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <p class="fw-normal">{{ item.nombre }}</p>
+                                </td>
+                                <td>
+                                    <p class="fw-normal">{{ item.cantidad }}</p>
+                                </td>
+                                <td>
+                                    <p class="fw-normal">${{ item.precio | intcomma:False }}</p>
+                                </td>
+                                <td>
+                                    <p class="fw-normal">${{ item.sub_total | intcomma:False }}</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                        {% endfor %}
+                        <tfoot class="bg-light text-center">
+                            <tr>
+                                <td>
+                                    <p class="fw-normal"><strong>Total Compra:</strong> ${{ total | intcomma:False }}
+                                    </p>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="card-footer text-center mt-3">
+                    <form action="{% url 'compra-realizada' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <button type="submit">Aceptar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
