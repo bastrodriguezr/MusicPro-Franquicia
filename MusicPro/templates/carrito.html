@@ -9,118 +9,119 @@
   <h1 class="py-4" id="tituloGestion">Carrito de Compras</h1>
 
 
-      <!-- Bloque Lista Productos -->
-      {% if request.session.carrito.items %}
-      <div class="row">
-        <div class="col-12-md">
-            <div class="card mb-3 mt-3">
-                <div class="card-header text-center">
-                    <h3>Lista Productos</h3>
-                </div>
-                <div class="card-body">
-                    <table class="table align-middle mb-0 bg-white">
-                        <thead class="bg-light">
-                            <tr>
-                                <th>Nombre producto</th>
-                                <th>Precio Unitario</th>
-                                <th>Cantidad</th>
-                                <th>Acciones</th>
-                                <th>Sub Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for key, value in request.session.carrito.items %}
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        {% if value.imagen %}
-                                        <img src="{{value.imagen}}" class="rounded" alt="..."
-                                            id="imgCardRounded">
-                                        {% else %}
-                                        <img src="{% static 'img/bitmap.png' %}" class="rounded" alt="..."
-                                            id="imgCardRounded">
-                                        {% endif %}
-                                        <div class="ms-3">
-                                            <p class="fw-bold mb-1">{{ value.nombre }}</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                  <p class="fw-normal mb-1">${{ value.precio | intcomma:False }}</p>
-                                </td>
-                                <td>
-                                    <p class="fw-normal mb-1">{{ value.cantidad | intcomma:False }}</p>
-                                </td>
-                                <td>
-                                  <div class="row">
-                                    <div class="col-12 col-md-3">
-                                      <form action="/agregar_carrito/{{value.producto_id}}" method="get">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-primary"
-                                        aria-label="Añadir Producto"><i class="bi bi-plus-square-fill"></i></button>
-                                      </form>
-                                    </div>
-                                    <div class="col-12 col-md-3">
-                                      <form action="/restar_carrito/{{value.producto_id}}" method="get">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-primary"
-                                        aria-label="Restar Producto"><i class="bi bi-dash-lg"></i></button>
-                                      </form>
-                                    </div>
-                                    <div class="col-12 col-md-3">
-                                      <form action="/eliminar_carrito/{{value.producto_id}}" method="get">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-danger"
-                                        aria-label="Eliminar Producto"><i class="bi bi-trash3-fill"></i></button>
-                                      </form>
-                                    </div>
-                                  </div>
-                                </td>
-                                <td>
-                                  <p class="fw-normal mb-1">${{ value.sub_total | intcomma:False }}</p>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                        <tfoot class="bg-light">
-                          <tr>
-                            <th id="total" colspan="4">Total Compra</th>
-                            <td>
-                              <p class="fw-normal mb-1">${{ total | intcomma:False }}</p>
-                            </td>
-                          </tr>
-                         </tfoot>
-                    </table>
-                </div>
-                <div class="card-footer text-center">
-                  {% if user.is_authenticated %}
-                    <a href="{% url 'datosEnvio' %}" class="btn btn-success">Realizar Compra!</a>
-                  {% else %}
-                  <a href="{% url 'login' %}" class="btn btn-success">Realizar Compra!</a>
-                  {% endif %}
-                </div>
-            </div>
+  <!-- Bloque Lista Productos -->
+  {% if request.session.carrito.items %}
+  <div class="row">
+    <div class="col-12-md">
+      <div class="card mb-3 mt-3">
+        <div class="card-header text-center">
+          <h3 id="tituloCardCarrito">Lista Productos</h3>
         </div>
-    </div>
-      <!-- Bloque Sin Productos -->
-      {% else %}
-
-      <div class="row">
-        <div class="col-12-md">
-            <div class="card mb-3 mt-3">
-                <div class="card-header text-center">
-                    <h3>NO HAY PRODUCTOS EN EL CARRITO!</h3>
-                </div>
-                <div class="card-body text-center">
-                  <h5 class="card-title">Tenemos increibles productos para ti...</h5>
-                  <p class="card-text">Vuelve a la tienda para agregar productos a tu carrito!</p>
-                  <a href="../" class="btn btn-primary">Tienda</a>
-            </div>
+        <div class="card-body">
+          <table class="table align-middle mb-0 bg-white">
+            <thead class="bg-light">
+              <tr>
+                <th>Nombre producto</th>
+                <th>Precio Unitario</th>
+                <th>Cantidad</th>
+                <th>Acciones</th>
+                <th>Sub Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for key, value in request.session.carrito.items %}
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center">
+                    {% if value.imagen %}
+                    <img src="{{value.imagen}}" class="rounded" alt="..." id="imgCardRounded">
+                    {% else %}
+                    <img src="{% static 'img/bitmap.png' %}" class="rounded" alt="..." id="imgCardRounded">
+                    {% endif %}
+                    <div class="ms-3">
+                      <p class="fw-bold mb-1">{{ value.nombre }}</p>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <p class="fw-normal mb-1">${{ value.precio | intcomma:False }}</p>
+                </td>
+                <td>
+                  <p class="fw-normal mb-1">{{ value.cantidad | intcomma:False }}</p>
+                </td>
+                <td>
+                  <div class="row">
+                    <div class="col-12 col-md-3">
+                      <form action="/agregar_carrito/{{value.producto_id}}" method="get">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary" aria-label="Añadir Producto"><i
+                            class="bi bi-plus-square-fill"></i></button>
+                      </form>
+                    </div>
+                    <div class="col-12 col-md-3">
+                      <form action="/restar_carrito/{{value.producto_id}}" method="get">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary" aria-label="Restar Producto"><i
+                            class="bi bi-dash-lg"></i></button>
+                      </form>
+                    </div>
+                    <div class="col-12 col-md-3">
+                      <form action="/eliminar_carrito/{{value.producto_id}}" method="get">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger" aria-label="Eliminar Producto"><i
+                            class="bi bi-trash3-fill"></i></button>
+                      </form>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <p class="fw-normal mb-1">${{ value.sub_total | intcomma:False }}</p>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+            <tfoot class="bg-light">
+              <tr>
+                <th id="total" colspan="4">Total Compra</th>
+                <td>
+                  <p class="fw-normal mb-1">${{ total | intcomma:False }}</p>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        <div class="card-footer text-center">
+          {% if user.is_authenticated %}
+          <form method="post" action="{% url 'confirmar-compra' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success">Realizar compra</button>
+          </form>
+          {% else %}
+          <a href="{% url 'login' %}" class="btn btn-success">Realizar Compra!</a>
+          {% endif %}
         </div>
       </div>
-      {% endif %}
     </div>
   </div>
+  <!-- Bloque Sin Productos -->
+  {% else %}
+
+  <div class="row">
+    <div class="col-12-md">
+      <div class="card mb-3 mt-3">
+        <div class="card-header text-center">
+          <h3>NO HAY PRODUCTOS EN EL CARRITO!</h3>
+        </div>
+        <div class="card-body text-center">
+          <h5 class="card-title">Tenemos increibles productos para ti...</h5>
+          <p class="card-text">Vuelve a la tienda para agregar productos a tu carrito!</p>
+          <a href="../" class="btn btn-primary">Tienda</a>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
 </div>
 
 {% endblock %}

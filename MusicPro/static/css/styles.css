@@ -110,7 +110,7 @@ body {
   margin-left: 21rem;
 }
 
-#labelNombre, #labelApellido, #labelCorreo, #labelDireccion {
+#labelNombre, #labelApellido, #labelCorreo, #labelDireccion, #tituloCardGestion, #tituloCardCarrito {
   margin-bottom: 1rem;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   color: #645656;
