@@ -28,7 +28,9 @@ class OrdenCompra(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)
     productos = models.ManyToManyField('Producto', through='ItemOrdenCompra')
     direccion_envio = models.CharField(blank=True, max_length=70, verbose_name='Dirección del pedido', null=True)
-
+    solicitud_exitosa = models.BooleanField(default=False, verbose_name='Solicitud exitosa')
+    email = models.EmailField(default='example@example.com')
+    
     class Meta:
         verbose_name_plural = "ordenes"
 

@@ -11,7 +11,7 @@ a {
     color: #4f4f4f;
 }
 
-#productostext {
+#productostext, #transporteText {
   text-align: center;
 }
 
