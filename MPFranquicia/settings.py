@@ -138,3 +138,12 @@ LOGIN_REDIRECT_URL = "/"
 #Templates crispy-forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+#Settings correo
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Host del servidor SMTP
+EMAIL_PORT = 587  # Puerto del servidor SMTP
+EMAIL_HOST_USER = 'musicpro831@gmail.com'  # Correo electrónico del remitente
+EMAIL_HOST_PASSWORD = 'sbymhhchwfuelerk'  # Contraseña del remitente
+EMAIL_USE_TLS = True  # Usar TLS para la conexión segura
+DEFAULT_FROM_EMAIL = 'MusicPro@gmail.com'

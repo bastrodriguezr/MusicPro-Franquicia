@@ -5,7 +5,9 @@ from carritoApp.carrito import Carrito
 from .models import Producto,ItemOrdenCompra, OrdenCompra,DireccionEnvio
 from .forms import ProductoForm,TransporteForm,DireccionEnvioForm
 from django.contrib import messages
-import requests
+import requests, json, datetime
+from django.core.mail import send_mail
+from django.conf import settings
 
 #Vista Home
 def home(request):
@@ -30,9 +32,9 @@ def saldo(request):
 
 #Vista integración Correo
 def enviarCorreo(request):
-    url = 'http://musicpro.bemtorres.win/api/v1/musicpro/send_email'
+    url = 'https://musicpro.bemtorres.win/api/v1/musicpro/send_email'
     try:
-        response = requests.post(url, data={'asunto': 'hola', 'correo': 'ali.munoz@duocuc.cl', 'contenido': ' esto es una prueba de mensaje'})
+        response = requests.post(url, data={'asunto': 'hola', 'correo': 'ba.prado@duocuc.cl', 'contenido': ' esto es una prueba de mensaje'})
         data = response.json()
         print(data)
         
@@ -142,7 +144,7 @@ def editarProducto(request,id):
             data["form"] = formulario
     return render(request, 'datosTransporte.html', data)'''
 
-def datosTransporte(request):
+'''def datosTransporte(request):
     data = {
         'form': TransporteForm()
     }
@@ -171,11 +173,11 @@ def datosTransporte(request):
                 return render(request, 'envioDatosTransporte.html', {'data': data})
         else:
             data["form"] = formulario
-    return render(request, 'datosTransporte.html', data)
+    return render(request, 'datosTransporte.html', data)'''
 
-#Vista Seguimiento
+'''#Vista Seguimiento
 def seguimiento(request):
-    return render(request, 'envioDatosTransporte.html')
+    return render(request, 'envioDatosTransporte.html')'''
 
 #Vista Carrito
 def carrito(request):
@@ -238,7 +240,7 @@ def compraRealizada(request):
         usuario = request.user if request.user.is_authenticated else None
         if usuario:
             total_cantidad = 0
-            orden_compra = OrdenCompra.objects.create(usuario=usuario,direccion_envio=direccion_envio.direccion)
+            orden_compra = OrdenCompra.objects.create(usuario=usuario,direccion_envio=direccion_envio.direccion,email=request.user.email)
             for item in carrito_items:
                 producto = Producto.objects.get(id=item['producto_id'])
                 ItemOrdenCompra.objects.create(
@@ -259,4 +261,52 @@ def compraRealizada(request):
         else:
             # Manejar el caso en el que el usuario no esté autenticado
             return redirect('login')
-    
+
+#Vista transporte(Admin) 
+def transporte(request):
+    if request.user.is_superuser:
+        ordenes = OrdenCompra.objects.all()
+        items = ItemOrdenCompra.objects.all()
+        
+        context = {
+            'ordenes': ordenes,
+            'items':items,
+            }
+        
+        if request.method == "POST":
+            orden_id = request.POST.get("orden_id")
+            print(orden_id)
+            orden= get_object_or_404(OrdenCompra, id=orden_id)
+            now = datetime.datetime.now()
+            fecha_pedido = now.isoformat()
+            data = {
+                "direccion_origen": "Av. Kennedy 8745",
+                "nombre_destino": orden.usuario.username,
+                "direccion_destino": orden.direccion_envio,
+                "correo_destino": orden.email,
+                "estado": "En preparacion",
+                "fecha_pedido": fecha_pedido
+            }
+            url = 'http://127.0.0.1:7000/pedidos/api/v1/pedidos/'
+            
+            try:
+                response = requests.post(url, json=data)
+                response.raise_for_status() 
+                response_data = response.json()
+                print(response_data)
+                orden.solicitud_exitosa = True
+                orden.save()
+                # Acceder a los datos de respuesta
+                codigo_seguimiento = response_data['codigo_seguimiento']
+                subject = 'Código de seguimiento'
+                message = f'Gracias por comprar en Music Pro, tu codigo de seguimiento es: #{codigo_seguimiento}'
+                from_email = settings.EMAIL_HOST_USER
+                recipient_list = [orden.email]
+                send_mail(subject, message, from_email, recipient_list)
+                messages.success(request, 'Solicitud enviada correctamente')
+                return redirect('home')
+            except requests.exceptions.RequestException as e:
+                print(f'Error en la solicitud: {e}')
+    else:
+        return render(request, '404.html')
+    return render(request, 'transporte.html', context)

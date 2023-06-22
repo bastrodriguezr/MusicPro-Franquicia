@@ -20,8 +20,7 @@ urlpatterns = [
     path('saldo/', views.saldo),
     path('bodega/', views.bodega),
     path('enviarCorreo/', views.enviarCorreo, name='enviarCorreo'),
-    path('datos/', views.datosTransporte, name='datosEnvio'),
-    path('seguimiento/', views.seguimiento, name='seguimiento'),
+    path('transporte/', views.transporte, name='transporte'),
 
     # CRUD
     path('gestionProductos/', views.gestionProductos, name='gestionProductos'),

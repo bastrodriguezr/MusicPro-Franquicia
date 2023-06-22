@@ -26,7 +26,7 @@ def logout_user(request):
 
 def register_user(request):
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = CustomCreationForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data['username']
@@ -37,6 +37,8 @@ def register_user(request):
             return redirect('/')
     else:
         form = CustomCreationForm()
+    # Asegurarse de que se muestre el campo de correo electrónico incluso en caso de errores
+    form.fields['email'].required = True
     return render(request,'loginApp/register.html',{
         'form':form,
     })
