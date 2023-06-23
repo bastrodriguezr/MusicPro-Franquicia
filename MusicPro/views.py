@@ -175,10 +175,6 @@ def editarProducto(request,id):
             data["form"] = formulario
     return render(request, 'datosTransporte.html', data)'''
 
-'''#Vista Seguimiento
-def seguimiento(request):
-    return render(request, 'envioDatosTransporte.html')'''
-
 #Vista Carrito
 def carrito(request):
 
@@ -353,3 +349,10 @@ def transporte(request):
     else:
         return render(request, '404.html')
     return render(request, 'transporte.html', context)
+
+#Vista Seguimiento
+def seguimiento(request):
+    codigo_seguimiento = "68748MUSICPRO979463"
+    response = requests.get(f'https://musicpro.bemtorres.win/api/v1/transporte/seguimiento/{codigo_seguimiento}')
+    data = response.json()
+    return render(request, 'seguimiento.html', {"status": data['status']})

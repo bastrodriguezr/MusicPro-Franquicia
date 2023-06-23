@@ -21,6 +21,7 @@ urlpatterns = [
     path('bodega/', views.bodega),
     path('enviarCorreo/', views.enviarCorreo, name='enviarCorreo'),
     path('transporte/', views.transporte, name='transporte'),
+    path('seguimiento/', views.seguimiento, name='seguimiento'),
 
     # CRUD
     path('gestionProductos/', views.gestionProductos, name='gestionProductos'),
