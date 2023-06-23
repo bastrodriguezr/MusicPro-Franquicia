@@ -14,15 +14,12 @@ class Producto(models.Model):
         texto = "{0} ({1})"
         return texto.format(self.nombre, self.cantidad)
 
-class Transporte(models.Model):
-    codigo_seguimiento = models.AutoField(primary_key=True, unique=True, verbose_name='id')
-    codigo_pedido = models.CharField(blank=True, max_length=70, verbose_name='Código de seguimiento')
-    fecha_creacion = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de pedido')
-    direccion_envio = models.CharField(blank=True, max_length=70, verbose_name='Dirección del pedido', null=True)
-
-    def __str__(self):
-        return str(self.fecha_creacion)
+class CodigoTransporte(models.Model):
+    orden_compra = models.IntegerField(default=0)
+    codigo_seguimiento = models.CharField(blank=True, max_length=70, verbose_name='Código de seguimiento', null=True)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     
+
 class OrdenCompra(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     fecha = models.DateTimeField(auto_now_add=True)

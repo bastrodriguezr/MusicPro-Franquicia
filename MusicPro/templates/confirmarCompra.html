@@ -20,7 +20,7 @@
                         {{ form | crispy }}
                 </div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-outline-success btn-block">Confirmar Compra</button>
+                    <button type="submit" class="btn btn-outline-success btn-block">Guardar</button>
                     </form>
                 </div>
             </div>
@@ -28,7 +28,7 @@
 
         <div class="col-6">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header text-center">
                     <h4>Productos</h4>
                 </div>
                 <div class="card-body">
@@ -72,7 +72,7 @@
                 <div class="card-footer text-center mt-3">
                     <form action="{% url 'compra-realizada' %}" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                        <button type="submit">Aceptar</button>
+                        <button type="submit" class="btn btn-success">Aceptar</button>
                     </form>
                 </div>
             </div>
