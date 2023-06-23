@@ -192,7 +192,8 @@ def carrito(request):
     }
     return render(request, 'carrito.html', context)
 
-#Vista Confirmar compra
+ 
+#Vista Confirmar compra V2 (para actualizar o crear nuve direccion)
 def confirmarCompra(request):
     # Generar carrito
     carrito = Carrito(request)
@@ -206,18 +207,25 @@ def confirmarCompra(request):
         'carrito_items': carrito_items,
         'direcciones': direcciones
     }
-        
+
     if request.method == 'POST':
         formulario = DireccionEnvioForm(request.POST)
         if formulario.is_valid():
             direccion = formulario.cleaned_data['direccion']
-            DireccionEnvio.objects.create(usuario=request.user, direccion=direccion)
+            # Obtener la dirección existente del usuario (si la hay)
+            direccion_envio = DireccionEnvio.objects.filter(usuario=request.user).first()
+            if direccion_envio:
+                # Actualizar la dirección existente
+                direccion_envio.direccion = direccion
+                direccion_envio.save()
+            else:
+                # Crear una nueva dirección
+                DireccionEnvio.objects.create(usuario=request.user, direccion=direccion)
     else:
         formulario = DireccionEnvioForm()
         data['form'] = formulario
 
     return render(request, 'confirmarCompra.html', data)
- 
     
     
 #Vista Compra realizada
