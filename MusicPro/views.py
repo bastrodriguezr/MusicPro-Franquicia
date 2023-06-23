@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.db.models import Sum
 from carritoApp.carrito import Carrito
-from .models import Producto,ItemOrdenCompra, OrdenCompra,DireccionEnvio
-from .forms import ProductoForm,TransporteForm,DireccionEnvioForm
+from .models import Producto,ItemOrdenCompra, OrdenCompra,DireccionEnvio,CodigoTransporte
+from .forms import ProductoForm,DireccionEnvioForm
 from django.contrib import messages
 import requests, json, datetime
 from django.core.mail import send_mail
@@ -275,38 +275,81 @@ def transporte(request):
         
         if request.method == "POST":
             orden_id = request.POST.get("orden_id")
+            opcion = request.POST.get('opcion')
             print(orden_id)
             orden= get_object_or_404(OrdenCompra, id=orden_id)
             now = datetime.datetime.now()
             fecha_pedido = now.isoformat()
-            data = {
-                "direccion_origen": "Av. Kennedy 8745",
-                "nombre_destino": orden.usuario.username,
-                "direccion_destino": orden.direccion_envio,
-                "correo_destino": orden.email,
-                "estado": "En preparacion",
-                "fecha_pedido": fecha_pedido
-            }
-            url = 'http://127.0.0.1:7000/pedidos/api/v1/pedidos/'
-            
-            try:
-                response = requests.post(url, json=data)
-                response.raise_for_status() 
-                response_data = response.json()
-                print(response_data)
-                orden.solicitud_exitosa = True
-                orden.save()
-                # Acceder a los datos de respuesta
-                codigo_seguimiento = response_data['codigo_seguimiento']
-                subject = 'Código de seguimiento'
-                message = f'Gracias por comprar en Music Pro, tu codigo de seguimiento es: #{codigo_seguimiento}'
-                from_email = settings.EMAIL_HOST_USER
-                recipient_list = [orden.email]
-                send_mail(subject, message, from_email, recipient_list)
-                messages.success(request, 'Solicitud enviada correctamente')
-                return redirect('home')
-            except requests.exceptions.RequestException as e:
-                print(f'Error en la solicitud: {e}')
+
+            if opcion == 'GranJVCorp':
+                data = {
+                    "direccion_origen": "Av. Kennedy 8745",
+                    "nombre_destino": orden.usuario.username,
+                    "direccion_destino": orden.direccion_envio,
+                    "correo_destino": orden.email,
+                    "estado": "En preparacion",
+                    "fecha_pedido": fecha_pedido
+                }
+                url = 'http://127.0.0.1:7000/pedidos/api/v1/pedidos/'
+                
+                try:
+                    response = requests.post(url, json=data)
+                    response.raise_for_status() 
+                    response_data = response.json()
+                    print(response_data)
+                    orden.solicitud_exitosa = True
+                    orden.save()
+                    # Acceder a los datos de respuesta
+                    codigo_seguimiento = response_data['codigo_seguimiento']
+                    CodigoTransporte.objects.create(
+                        orden_compra=orden_id,
+                        codigo_seguimiento=codigo_seguimiento,
+                        usuario=orden.usuario
+                    )
+                    subject = 'Código de seguimiento'
+                    message = f'Gracias por comprar en Music Pro, tu codigo de seguimiento es: #{codigo_seguimiento}'
+                    from_email = settings.EMAIL_HOST_USER
+                    recipient_list = [orden.email]
+                    send_mail(subject, message, from_email, recipient_list)
+                    messages.success(request, 'Solicitud enviada correctamente')
+                    return redirect('home')
+                except requests.exceptions.RequestException as e:
+                    print(f'Error en la solicitud: {e}')
+            elif opcion == 'MusicPro':
+                data={
+                    'nombre_origen': request.user.username, 
+                    'direccion_origen': 'Av. Kennedy 8745', 
+                    'nombre_destino': orden.usuario.username,
+                    'estado': 'En preparacion',
+                    'direccion_destino': orden.direccion_envio, 
+                    'comentario': 'Primer intento', 
+                    'info': 'Carga con instrumentos pesados'
+                }
+                url = 'https://musicpro.bemtorres.win/api/v1/transporte/solicitud'
+                
+                try:
+                    response = requests.post(url, json=data)
+                    response.raise_for_status() 
+                    response_data = response.json()
+                    print(response_data)
+                    orden.solicitud_exitosa = True
+                    orden.save()
+                    # Acceder a los datos de respuesta
+                    codigo_seguimiento = response_data['codigo_seguimiento']
+                    CodigoTransporte.objects.create(
+                        orden_compra=orden_id,
+                        codigo_seguimiento=codigo_seguimiento,
+                        usuario=orden.usuario
+                    )
+                    subject = 'Código de seguimiento'
+                    message = f'Gracias por comprar en Music Pro, tu codigo de seguimiento es: #{codigo_seguimiento}'
+                    from_email = settings.EMAIL_HOST_USER
+                    recipient_list = [orden.email]
+                    send_mail(subject, message, from_email, recipient_list)
+                    messages.success(request, 'Solicitud enviada correctamente')
+                    return redirect('home')
+                except requests.exceptions.RequestException as e:
+                    print(f'Error en la solicitud: {e}')
     else:
         return render(request, '404.html')
     return render(request, 'transporte.html', context)

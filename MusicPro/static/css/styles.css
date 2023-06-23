@@ -115,3 +115,14 @@ body {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   color: #645656;
 }
+
+.small-select {
+  font-size: 12px;
+  padding: 4px 8px;
+  width: 10rem;
+}
+
+.center-select {
+  text-align: center;
+  margin: 0 auto;
+}

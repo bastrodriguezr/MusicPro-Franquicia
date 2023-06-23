@@ -1,5 +1,5 @@
 from django import forms
-from .models import Producto,Transporte,DireccionEnvio
+from .models import Producto,DireccionEnvio
 from .validators import MaxSizeFileValidator
  
 
@@ -20,11 +20,7 @@ class ProductoForm(forms.ModelForm):
         #   }
         #fin de la fecha
 
-class TransporteForm(forms.ModelForm):
 
-    class Meta:
-        model = Transporte
-        fields = ["direccion_envio"]
 
 class DireccionEnvioForm(forms.ModelForm):
     direccion = forms.CharField(max_length=100)
