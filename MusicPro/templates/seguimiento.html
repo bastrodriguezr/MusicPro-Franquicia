@@ -1,1 +1,69 @@
-{{status}}
+{% extends "baseHome.html" %}
+
+{% block title %}Datos envío{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h4 id="tituloSeguimiento">Seguimiento pedido</h4>
+                </div>
+                <div class="card-body text-center">
+                    <form action="{% url 'seguimiento' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="codigo_seguimiento">Código de Seguimiento:</label>
+                            <input type="text" class="form-control" id="codigo_seguimiento" name="codigo_seguimiento"
+                                required>
+                        </div>
+                </div>
+                <div class="card-footer text-center">
+                    <button type="submit" class="btn btn-dark btn-sm">Solicitar transporte</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% if verificacion == 'MP' %}
+        <div class="col-md-6 mx-auto">
+            <div class="card p-3">
+                <div class="card-header text-center">
+                    <h4 id="tituloSeguimiento">Resultados solicitud</h4>
+                </div>
+                <div class="card-body text-center">
+                    <p class="font-weight-bold"><strong>Estado pedido: </strong>{{ result.estado }}</p>
+                    <p class="font-weight-bold"><strong>Dirección envío: </strong>{{ solicitud.direccion_destino }}</p>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        {% if verificacion == 'JV' %}
+        <div class="col-md-6 mx-auto">
+            <div class="card p-3">
+                <div class="card-header text-center">
+                    <h4 id="tituloSeguimiento">Resultados solicitud</h4>
+                </div>
+                <div class="card-body text-center">
+                    <p class="font-weight-bold"><strong>Estado pedido: </strong>{{ estado }}</p>
+                    <p class="font-weight-bold"><strong>Dirección envío: </strong>{{ direccion_destino }}</p>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-md-6 mx-auto">
+            <div class="card p-3">
+                <div class="card-header text-center">
+                    <h4 id="tituloSeguimiento">Resultados solicitud</h4>
+                </div>
+                <div class="card-body text-center">
+                    <p>Ingrese un código de seguimiento válido para ver estado de pedido</p>
+                    <p>© Music Pro</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
