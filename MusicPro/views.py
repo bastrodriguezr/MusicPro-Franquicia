@@ -352,7 +352,41 @@ def transporte(request):
 
 #Vista Seguimiento
 def seguimiento(request):
-    codigo_seguimiento = "68748MUSICPRO979463"
-    response = requests.get(f'https://musicpro.bemtorres.win/api/v1/transporte/seguimiento/{codigo_seguimiento}')
-    data = response.json()
-    return render(request, 'seguimiento.html', {"status": data['status']})
+    codigo_seguimiento = ""
+    verificacion = ""
+    if request.method == "POST":
+        codigo_seguimiento = request.POST.get("codigo_seguimiento")
+    primeros_dos_caracteres = codigo_seguimiento[:2]
+    if primeros_dos_caracteres == 'JV':
+        try:
+            response = requests.get(f'http://127.0.0.1:7000/pedidos/estado/{codigo_seguimiento}')
+            data = response.json()
+            verificacion = "JV"
+            return render(request, 'seguimiento.html', {
+                "estado": data['estado'],
+                "direccion_origen": data['direccion_origen'],
+                "direccion_destino": data['direccion_destino'],
+                "verificacion": verificacion
+            })
+        except requests.exceptions.RequestException as e:
+            print(f'Error en la solicitud: {e}')
+            mensaje_error = 'Error en la solicitud. Por favor, intenta nuevamente más tarde.'
+            return render(request, 'seguimiento.html', {'error': mensaje_error})
+    else:
+        try:
+            response = requests.get(f'https://musicpro.bemtorres.win/api/v1/transporte/seguimiento/{codigo_seguimiento}')
+            data = response.json()
+            result = data.get('result', {})
+            solicitud = result.get('solicitud', {})
+            verificacion = "MP" 
+            return render(request, 'seguimiento.html', {
+                "status": data['status'],
+                "result": result,
+                "solicitud": solicitud,
+                "verificacion": verificacion
+            })
+        except requests.exceptions.RequestException as e:
+            print(f'Error en la solicitud: {e}')
+            mensaje_error = 'Error en la solicitud. Por favor, intenta nuevamente más tarde.'
+            return render(request, 'seguimiento.html', {'error': mensaje_error})
+
