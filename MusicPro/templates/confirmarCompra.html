@@ -16,11 +16,16 @@
                 </div>
                 <div class="card-body">
                     <form action="{% url 'confirmar-compra' %}" method="post" enctype="multipart/form-data">
+                        {% if direccion_envio %}
+                        <p><strong>Dirección registrada:</strong> {{direccion_envio}}</p> 
+                        {% else %}
+                        <p><strong>No hay ninguna dirección registrada*</strong></p>
+                        {% endif %}
                         {% csrf_token %}
                         {{ form | crispy }}
                 </div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-outline-success btn-block">Confirmar</button>
+                    <button type="submit" class="btn btn-outline-success btn-block">Guardar</button>
                     </form>
                 </div>
             </div>
@@ -72,7 +77,11 @@
                 <div class="card-footer text-center mt-3">
                     <form action="{% url 'compra-realizada' %}" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                        <button type="submit">Aceptar</button>
+                        {% if direccion_envio %}
+                        <button type="submit" class="btn btn-outline-success btn-block">Aceptar</button>
+                        {% else %}
+                        <button type="submit" class="btn btn-outline-success btn-block" disabled>Aceptar</button>
+                        {% endif %}
                     </form>
                 </div>
             </div>

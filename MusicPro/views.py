@@ -195,12 +195,14 @@ def confirmarCompra(request):
     total = carrito.calcular_total()
     carrito_items = carrito.carrito.values()
     direcciones = DireccionEnvio.objects.all()
+    direccion_envio = DireccionEnvio.objects.filter(usuario=request.user).first()
 
     data = {
         'form': DireccionEnvioForm(),
         'total': total,
         'carrito_items': carrito_items,
-        'direcciones': direcciones
+        'direcciones': direcciones,
+        'direccion_envio': direccion_envio.direccion if direccion_envio else None
     }
 
     if request.method == 'POST':
@@ -213,9 +215,11 @@ def confirmarCompra(request):
                 # Actualizar la dirección existente
                 direccion_envio.direccion = direccion
                 direccion_envio.save()
+                return redirect('confirmar-compra')
             else:
                 # Crear una nueva dirección
                 DireccionEnvio.objects.create(usuario=request.user, direccion=direccion)
+                return redirect('confirmar-compra')
     else:
         formulario = DireccionEnvioForm()
         data['form'] = formulario
