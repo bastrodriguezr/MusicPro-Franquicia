@@ -19,7 +19,6 @@
                     <p class="fst-italic">Fecha: {{ orden_compra.fecha }}</p>
                 </div>
                 <div class="card-body">
-                    {% for item in carrito_items %}
                     <table class="table">
                         <thead class="bg-light">
                             <tr>
@@ -30,6 +29,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {% for item in carrito_items %}
                             <tr>
                                 <td>
                                     <p class="fw-normal">{{ item.nombre }}</p>
@@ -44,11 +44,11 @@
                                     <p class="fw-normal">${{ item.sub_total | intcomma:False }}</p>
                                 </td>
                             </tr>
+                            {% endfor %}
                         </tbody>
-                        {% endfor %}
                         <tfoot class="bg-light text-center">
                             <tr>
-                                <td>
+                                <td colspan="4">
                                     <p class="fw-normal"><strong>Total Compra:</strong> ${{ total | intcomma:False }}
                                     </p>
                                 </td>

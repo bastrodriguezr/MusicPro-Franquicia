@@ -23,7 +23,7 @@ class ProductoForm(forms.ModelForm):
 
 
 class DireccionEnvioForm(forms.ModelForm):
-    direccion = forms.CharField(max_length=100)
+    direccion = forms.CharField(max_length=100, label='Dirección')
 
     class Meta:
         model = DireccionEnvio

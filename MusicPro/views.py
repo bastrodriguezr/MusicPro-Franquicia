@@ -188,7 +188,6 @@ def carrito(request):
     }
     return render(request, 'carrito.html', context)
 
- 
 #Vista Confirmar compra V2 (para actualizar o crear nuve direccion)
 def confirmarCompra(request):
     # Generar carrito
@@ -261,6 +260,7 @@ def compraRealizada(request):
                 'total': total,
                 'carrito_items': carrito_items
             }
+            carrito.limpiar()
             return render(request, 'compraRealizada.html',context)
         else:
             # Manejar el caso en el que el usuario no esté autenticado
