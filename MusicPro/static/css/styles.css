@@ -68,7 +68,7 @@ body {
 
 #cardProductos {
   width: 15rem;
-  height: 30rem;
+  height: 40rem;
   margin: 20px;
 }
 
@@ -124,5 +124,19 @@ body {
 
 .center-select {
   text-align: center;
+  margin: 0 auto;
+}
+
+.card-body-centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.card-img-custom {
+  max-width: 85%;
+  height: auto;
+  display: block;
   margin: 0 auto;
 }
