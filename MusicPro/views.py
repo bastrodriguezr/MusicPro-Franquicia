@@ -8,6 +8,7 @@ from django.contrib import messages
 import requests, json, datetime
 from django.core.mail import send_mail
 from django.conf import settings
+import logging
 
 #Vista Home
 def home(request):
@@ -355,50 +356,76 @@ def transporte(request):
                     recipient_list = [orden.email]
                     send_mail(subject, message, from_email, recipient_list)
                     messages.success(request, 'Solicitud enviada correctamente')
-                    return redirect('home')
+                    return redirect('transporte')
                 except requests.exceptions.RequestException as e:
                     print(f'Error en la solicitud: {e}')
     else:
         return render(request, '404.html')
     return render(request, 'transporte.html', context)
 
-#Vista Seguimiento
+#Vista seguimiento
 def seguimiento(request):
     codigo_seguimiento = ""
-    verificacion = ""
     if request.method == "POST":
         codigo_seguimiento = request.POST.get("codigo_seguimiento")
-    primeros_dos_caracteres = codigo_seguimiento[:2]
-    if primeros_dos_caracteres == 'JV':
-        try:
-            response = requests.get(f'http://127.0.0.1:7000/pedidos/estado/{codigo_seguimiento}')
-            data = response.json()
-            verificacion = "JV"
-            return render(request, 'seguimiento.html', {
-                "estado": data['estado'],
-                "direccion_origen": data['direccion_origen'],
-                "direccion_destino": data['direccion_destino'],
-                "verificacion": verificacion
-            })
-        except requests.exceptions.RequestException as e:
-            print(f'Error en la solicitud: {e}')
-            mensaje_error = 'Error en la solicitud. Por favor, intenta nuevamente más tarde.'
+        dos_primeros_caracteres = codigo_seguimiento[:2]
+        if dos_primeros_caracteres == 'JV':
+            try:
+                response = requests.get(f'http://127.0.0.1:7000/pedidos/estado/{codigo_seguimiento}')
+                response.raise_for_status()  # Lanza una excepción si hay un error HTTP en la respuesta
+                data = response.json()
+                return render(request, 'seguimiento.html', {
+                    "estado": data['estado'],
+                    "direccion_origen": data['direccion_origen'],
+                    "direccion_destino": data['direccion_destino']
+                })
+            except requests.exceptions.ConnectionError as e:
+                error_msg = f'Error de conexión: {e}'
+                logging.error(error_msg)  # Registra el error en el sistema de registro
+                mensaje_error = 'Error de conexión. Por favor, intenta nuevamente más tarde.'
+                messages.success(request, 'Error al intentar seguir pedido')
+            except requests.exceptions.HTTPError as e:
+                error_msg = f'Error HTTP: {e}'
+                logging.error(error_msg)
+                mensaje_error = 'Error HTTP. Por favor, intenta nuevamente más tarde.'
+                messages.success(request, 'Error al intentar seguir pedido')
+            except Exception as e:
+                error_msg = f'Error en la solicitud: {e}'
+                logging.error(error_msg)
+                mensaje_error = 'Error en la solicitud. Por favor, intenta nuevamente más tarde.'
+                messages.success(request, 'Error al intentar seguir pedido')
+            context = {
+                "error": mensaje_error
+            }
+            return render(request, 'seguimiento.html', context)
+        else:
+            try:
+                response = requests.get(f'https://musicpro.bemtorres.win/api/v1/transporte/seguimiento/{codigo_seguimiento}')
+                response.raise_for_status()  # Lanza una excepción si hay un error HTTP en la respuesta
+                data = response.json()
+                if 'status' in data:
+                    status = data['status']
+                    result = data.get('result', {})
+                    solicitud = result.get('solicitud', {})
+                    return render(request, 'seguimiento.html', {
+                        "status": status,
+                        "result": result,
+                        "solicitud": solicitud
+                    })
+                else:
+                    mensaje_error = 'Datos incorrectos en la respuesta.'
+            except requests.exceptions.ConnectionError as e:
+                mensaje_error = f'Error de conexión: {e}'
+                messages.success(request, 'Error al intentar seguir pedido')
+            except requests.exceptions.HTTPError as e:
+                mensaje_error = f'Error HTTP: {e}'
+                messages.success(request, 'Error al intentar seguir pedido')
+            except Exception as e:
+                mensaje_error = f'Error en la solicitud: {e}'
+                messages.success(request, 'Error al intentar seguir pedido')
             return render(request, 'seguimiento.html', {'error': mensaje_error})
     else:
-        try:
-            response = requests.get(f'https://musicpro.bemtorres.win/api/v1/transporte/seguimiento/{codigo_seguimiento}')
-            data = response.json()
-            result = data.get('result', {})
-            solicitud = result.get('solicitud', {})
-            verificacion = "MP" 
-            return render(request, 'seguimiento.html', {
-                "status": data['status'],
-                "result": result,
-                "solicitud": solicitud,
-                "verificacion": verificacion
-            })
-        except requests.exceptions.RequestException as e:
-            print(f'Error en la solicitud: {e}')
-            mensaje_error = 'Error en la solicitud. Por favor, intenta nuevamente más tarde.'
-            return render(request, 'seguimiento.html', {'error': mensaje_error})
+        return render(request, 'seguimiento.html')
+
+            
 
