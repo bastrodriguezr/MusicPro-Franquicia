@@ -194,6 +194,7 @@ def confirmarCompra(request):
     # Generar carrito
     carrito = Carrito(request)
     total = carrito.calcular_total()
+    print(total)
     carrito_items = carrito.carrito.values()
     direcciones = DireccionEnvio.objects.all()
     direccion_envio = DireccionEnvio.objects.filter(usuario=request.user).first()
@@ -427,5 +428,16 @@ def seguimiento(request):
     else:
         return render(request, 'seguimiento.html')
 
-            
 
+#Realizar pago
+def realizar_pago(request):
+
+    carrito = Carrito(request)
+    total = carrito.calcular_total()
+    total = int(total)
+    url = 'https://musicpro.bemtorres.win/api/v1/tarjeta/transferir_get?user=syntrabajos&secret_key=syntrabajos&monto={total}&callback=http://127.0.0.1:8000/pago/realizado'.format(total=total)
+    return redirect(url)
+
+#Confirmar pago
+def pago_realizado(request):
+    return render(request, 'pagoRealizado.html')
