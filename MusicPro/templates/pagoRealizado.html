@@ -1,0 +1,30 @@
+{% extends "baseHome.html" %}
+
+{% load static %}
+
+{% load humanize %}
+
+{% block title %}Pago realizado{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Compra realizada exitosamente!</h4>
+                </div>
+                <div class="card-body">
+                    <img src="{% static 'success.png' %}" class="card-img-top card-img-custom" alt="..." id="imgCard">
+                </div>
+                <div class="card-footer">
+                    <form action="{% url 'compra-realizada' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-success btn-block">Aceptar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
