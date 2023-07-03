@@ -8,23 +8,28 @@
 
 {% block content %}
 <div class="container">
-    <div class="row">
-        <div class="col-md-12 text-center">
-            <div class="card">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <div class="card mt-3">
                 <div class="card-header">
-                    <h4>Compra realizada exitosamente!</h4>
+                    <h4 id="titulo-compra-realizada">Compra realizada exitosamente!</h4>
                 </div>
-                <div class="card-body">
-                    <img src="{% static 'success.png' %}" class="card-img-top card-img-custom" alt="..." id="imgCard">
+                <div class="card-body mt-3 mb-3">
+                    <img src="{% static 'img/success.png' %}" id="img-success">
                 </div>
                 <div class="card-footer">
                     <form action="{% url 'compra-realizada' %}" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-outline-success btn-block">Aceptar</button>
+                        <button id="btn-aceptar" type="submit"
+                            class="btn btn-outline-success btn-block">Aceptar</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/temporizador.js' %}"></script>
 {% endblock %}

@@ -110,7 +110,9 @@ body {
   margin-left: 21rem;
 }
 
-#labelNombre, #labelApellido, #labelCorreo, #labelDireccion, #tituloCardGestion, #tituloCardCarrito, #tituloSeguimiento {
+#labelNombre, #labelApellido, #labelCorreo, #labelDireccion, 
+#tituloCardGestion, #tituloCardCarrito, #tituloSeguimiento, 
+#titulo-compra-realizada {
   margin-bottom: 1rem;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   color: #645656;
@@ -170,4 +172,9 @@ body {
 
 #btn-estado {
   margin-top: 1rem;
+}
+
+#img-success {
+  width: 10%;
+  height: auto;
 }

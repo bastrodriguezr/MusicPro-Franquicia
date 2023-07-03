@@ -431,7 +431,6 @@ def seguimiento(request):
 
 #Realizar pago
 def realizar_pago(request):
-
     carrito = Carrito(request)
     total = carrito.calcular_total()
     total = int(total)
@@ -440,4 +439,16 @@ def realizar_pago(request):
 
 #Confirmar pago
 def pago_realizado(request):
-    return render(request, 'pagoRealizado.html')
+    if request.method == 'GET':
+        response_params = request.GET
+        status = response_params.get('status')
+        
+        # Realizar acciones en función de la respuesta recibida
+        if status == 'success':
+            # Pago exitoso
+            return render(request, 'pagoRealizado.html', {'status': status})
+        else:
+            # Pago fallido
+            return redirect('home')
+    else:
+        return redirect('home')
