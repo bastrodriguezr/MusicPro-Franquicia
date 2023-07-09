@@ -25,6 +25,10 @@ urlpatterns = [
     path('transporte/', views.transporte, name='transporte'),
     path('seguimiento/', views.seguimiento, name='seguimiento'),
 
+    #WebPay
+    path('pago_webpay/', views.realizar_pago_webpay, name="realizar-pago-webpay"),
+    path('pago/realizado_webpay/', views.pago_realizado_webpay, name="pago-realizado-webpay"),
+
     # CRUD
     path('gestionProductos/', views.gestionProductos, name='gestionProductos'),
     path('registrarProducto/' , views.registrarProducto, name='registrarProducto'),

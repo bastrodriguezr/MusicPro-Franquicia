@@ -1,3 +1,4 @@
+import random
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.db.models import Sum
@@ -9,6 +10,10 @@ import requests, json, datetime
 from django.core.mail import send_mail
 from django.conf import settings
 import logging
+
+#WebPay
+from transbank.webpay.webpay_plus.transaction import Transaction, WebpayOptions, IntegrationApiKeys, IntegrationCommerceCodes
+from transbank.common.integration_type import IntegrationType
 
 #Vista Home
 def home(request):
@@ -447,7 +452,46 @@ def pago_realizado(request):
     if request.method == 'GET':
         response_params = request.GET
         status = response_params.get('status')
-        
+        # Realizar acciones en función de la respuesta recibida
+        if status == 'success':
+            # Pago exitoso
+            return render(request, 'pagoRealizado.html', {'status': status})
+        else:
+            # Pago fallido
+            return redirect('home')
+    else:
+        return redirect('home')
+
+# WebPay
+def realizar_pago_webpay(request):
+    carrito = Carrito(request)
+    total = carrito.calcular_total()
+    total = int(total)
+
+    tx = Transaction(WebpayOptions(IntegrationCommerceCodes.WEBPAY_PLUS, IntegrationApiKeys.WEBPAY, IntegrationType.TEST))
+
+    resp = tx.create(
+        buy_order=str(random.randrange(1000000, 99999999)),
+        session_id=request.session.session_key,
+        amount=total,
+        return_url='http://127.0.0.1:8000/pago/realizado_webpay')
+    
+    url = f"{resp['url']}?token_ws={resp['token']}"
+
+    request.session['token'] = resp['token']
+
+    return redirect(url)
+
+def pago_realizado_webpay(request):
+
+    token = request.session['token']
+    tx = Transaction(WebpayOptions(IntegrationCommerceCodes.WEBPAY_PLUS, IntegrationApiKeys.WEBPAY, IntegrationType.TEST))
+    resp = tx.commit(token)
+
+    cod_resp = resp['response_code']
+
+    if cod_resp == 0:
+        status = 'success'
         # Realizar acciones en función de la respuesta recibida
         if status == 'success':
             # Pago exitoso
