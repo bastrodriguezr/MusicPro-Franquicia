@@ -96,6 +96,7 @@ def editarProducto(request,id):
         descripcion = request.POST.get('descripcion')
         precio = request.POST.get('precio')
         cantidad = request.POST.get('cantidad')
+        tipo_instrumento = request.POST.get('tipo_producto')
 
         producto = Producto(
             id = id,
@@ -104,6 +105,7 @@ def editarProducto(request,id):
             descripcion = descripcion,
             precio = precio,
             cantidad = cantidad,
+            tipo_instrumento = tipo_instrumento
         )
         producto.save()
         return redirect('gestionProductos')

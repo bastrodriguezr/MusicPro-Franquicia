@@ -9,6 +9,7 @@ class Producto(models.Model):
     descripcion = models.TextField()
     imagen = models.ImageField(upload_to='productos', null=True)
     cantidad = models.IntegerField(default=0)
+    tipo_instrumento = models.CharField(max_length=50, null=True)
 
     def __str__(self):
         texto = "{0} ({1})"
