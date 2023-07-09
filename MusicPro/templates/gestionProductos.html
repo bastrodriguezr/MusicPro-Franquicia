@@ -56,6 +56,14 @@
                                                 <input type="number" id="cantidad" name="cantidad" class="form-control"
                                                     placeholder="Cantidad" min="1" max="999" required>
                                             </div>
+                                            <div class="form-group">
+                                                <select id="tipo_instrumento" name="tipo_instrumento" class="form-control" required>
+                                                    <option value="">Seleccione un tipo de instrumento</option>
+                                                    <option value="Cuerda">Cuerda</option>
+                                                    <option value="Viento">Viento</option>
+                                                    <option value="Percusión">Percusión</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="card-footer text-center">
@@ -112,6 +120,14 @@
                                         <input type="number" id="cantidad" name="cantidad" class="form-control"
                                             placeholder="Cantidad" min="1" max="999" value="{{producto.cantidad}}"
                                             required>
+                                    </div>
+                                    <div class="form-group">
+                                        <select id="tipo_producto" name="tipo_producto" class="form-control" required>
+                                            <option value="">Seleccione un tipo de producto</option>
+                                            <option value="Cuerda" {% if producto.tipo_producto == 'Cuerda' %}selected{% endif %}>Cuerda</option>
+                                            <option value="Viento" {% if producto.tipo_producto == 'Viento' %}selected{% endif %}>Viento</option>
+                                            <option value="Percusión" {% if producto.tipo_producto == 'Percusión' %}selected{% endif %}>Percusión</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
