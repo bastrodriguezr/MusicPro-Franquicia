@@ -295,12 +295,12 @@ def transporte(request):
 
             if opcion == 'GranJVCorp':
                 data = {
+                    "lugar_origen": "Sucursal",
+                    "nombre_origen": "MP Av. Kennedy",
                     "direccion_origen": "Av. Kennedy 8745",
                     "nombre_destino": orden.usuario.username,
                     "direccion_destino": orden.direccion_envio,
-                    "correo_destino": orden.email,
-                    "estado": "En preparacion",
-                    "fecha_pedido": fecha_pedido
+                    "correo_destino": orden.email
                 }
                 url = 'http://127.0.0.1:7000/pedidos/api/v1/pedidos/'
                 
@@ -368,19 +368,22 @@ def transporte(request):
 
 #Vista seguimiento
 def seguimiento(request):
-    codigo_seguimiento = ""
     if request.method == "POST":
         codigo_seguimiento = request.POST.get("codigo_seguimiento")
         dos_primeros_caracteres = codigo_seguimiento[:2]
         if dos_primeros_caracteres == 'JV':
             try:
                 response = requests.get(f'http://127.0.0.1:7000/pedidos/estado/{codigo_seguimiento}')
+                print(codigo_seguimiento)
+                print(response)
                 response.raise_for_status()  # Lanza una excepción si hay un error HTTP en la respuesta
                 data = response.json()
+                print(data)
                 return render(request, 'seguimiento.html', {
                     "estado": data['estado'],
                     "direccion_origen": data['direccion_origen'],
-                    "direccion_destino": data['direccion_destino']
+                    "direccion_destino": data['direccion_destino'],
+                    "response": response,
                 })
             except requests.exceptions.ConnectionError as e:
                 error_msg = f'Error de conexión: {e}'
@@ -397,9 +400,9 @@ def seguimiento(request):
                 logging.error(error_msg)
                 mensaje_error = 'Error en la solicitud. Por favor, intenta nuevamente más tarde.'
                 messages.success(request, 'Error al intentar seguir pedido')
-            context = {
-                "error": mensaje_error
-            }
+                context = {
+                    "error": mensaje_error
+                }
             return render(request, 'seguimiento.html', context)
         else:
             try:
