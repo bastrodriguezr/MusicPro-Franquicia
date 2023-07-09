@@ -8,6 +8,7 @@ class ProductoForm(forms.ModelForm):
     nombre = forms.CharField(min_length=3, max_length=50)
     imagen = forms.ImageField(required=False, validators=[MaxSizeFileValidator(max_file_size=3)])
     precio = forms.IntegerField(min_value=1, max_value=1500000)
+    tipo_instrumento = forms.CharField(min_length=3, max_length=50)
 
 
     class Meta:

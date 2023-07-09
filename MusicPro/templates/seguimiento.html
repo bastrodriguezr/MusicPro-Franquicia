@@ -25,7 +25,7 @@
                 </div>
             </div>
         </div>
-        {% if estado|default:'' == 'En preparacion' %}
+        {% if estado|default:'' == 'En preparacion' or estado|default:'' == 'En camino' or estado|default:'' == 'Completado'%}
         <div class="col-md-6 mx-auto mt-4">
             <div class="card-custom success">
                 <div class="card-header">
