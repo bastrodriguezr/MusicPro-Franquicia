@@ -1,0 +1,38 @@
+{% extends "baseHome.html" %}
+
+{% load static %}
+
+{% load humanize %}
+
+{% block title %}Error con el Pago{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h4 id="titulo-compra-realizada">Error en la Compra!</h4>
+                </div>
+                <div class="card-body mt-3 mb-3">
+                    <img src="{% static 'img/error.png' %}" id="img-success">
+                </div>
+                <div class="card-footer">
+                    <h5>Vuelve al carrito e intenta nuevamente...</h5>
+                </div>
+                <div class="card-footer">
+                    <form action="{% url 'carrito' %}" >
+                        {% csrf_token %}
+                        <button id="btn-aceptar" type="submit"
+                            class="btn btn-outline-success btn-block">Volver al Carrito</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/temporizador.js' %}"></script>
+{% endblock %}

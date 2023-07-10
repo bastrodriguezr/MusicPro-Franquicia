@@ -459,9 +459,12 @@ def pago_realizado(request):
             return render(request, 'pagoRealizado.html', {'status': status})
         else:
             # Pago fallido
-            return redirect('home')
+            return redirect('pago-error')
     else:
-        return redirect('home')
+        return redirect('pago-error')
+    
+def pago_error(request):
+    return render(request, 'pagoError.html')
 
 # WebPay
 def realizar_pago_webpay(request):
@@ -499,6 +502,6 @@ def pago_realizado_webpay(request):
             return render(request, 'pagoRealizado.html', {'status': status})
         else:
             # Pago fallido
-            return redirect('home')
+            return redirect('pago-error')
     else:
-        return redirect('home')
+        return redirect('pago-error')
