@@ -16,6 +16,7 @@
                 <img src="{{p.imagen.url}}" class="card-img-top card-img-custom" alt="..." id="imgCard">
                 <div class="card-body text-center">
                     <h5 class="card-title">{{ p.nombre | capfirst }} ({{ p.cantidad }})</h5>
+                    <p class="card-text"><i>Categoría: </i>{{ p.tipo_instrumento | capfirst }}</p>
                     <p class="card-text">{{ p.descripcion | capfirst }}</p>
                 </div>
                 <div class="card-footer d-flex justify-content-between align-items-center">

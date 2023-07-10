@@ -82,6 +82,8 @@
                         {% else %}
                         <button type="submit" class="btn btn-outline-success btn-block" disabled>Aceptar</button>
                         {% endif %}
+                        <br>
+                        <hr>
                     </form>
                     <form action="{% url 'realizar-pago-webpay' %}" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
