@@ -113,6 +113,7 @@ def editarProducto(request,id):
             tipo_instrumento = tipo_instrumento
         )
         producto.save()
+        messages.success(request, 'Producto editado correctamente')
         return redirect('gestionProductos')
     return redirect(request, 'home.html')
 
